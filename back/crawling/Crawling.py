@@ -5,6 +5,7 @@ import json
 
 class Crawling():
     def __init__(self):
+        # userinfo
         pass
 
     def search_article(self, search_term : str) -> None:
@@ -23,7 +24,9 @@ class Crawling():
                         "url": result["url"]
                     }
                     articles.append(data)
-                    print(data)
+                    # print(data)
+            with open("data.json", "w") as f:
+                f.write(json.dumps(articles, indent='\t'))
             return articles
         else:
             print("error: ", response.status_code)
@@ -49,9 +52,17 @@ class Crawling():
                 if child.name == 'div':
                     # find a tag, 'picture' in the div
                     picture = child.find('picture')
+                    video = child.find('video')
                     if picture:
                         caption = child.find('div', 'image__caption').get_text().strip()
                         sub_contents.append('*** IMAGE: {}'.format(caption))
+                    elif video:
+                        caption = child.find('div', 'video-resource__details').get_text().strip()
+                        sub_contents.append('*** VIDEO: {}'.format(caption))
+
+                # 본문을 못 가져오는 에러 원인
+                # 각 section들에 소제목이 있다는 전제 하에 리스트를 만드므로 소제목이 없다면 리스트가 생성되지 않음
+                # 소제목이 없는 경우 INTRO 처리를 했지만, INTRO가 무시되는 경우가 있음
                 elif child.name == 'h2':
                     article['sections'].append({
                         'title': sub_title,
@@ -59,8 +70,11 @@ class Crawling():
                     })
                     sub_title = child.get_text().strip()
                     sub_contents = []
+                    # print(sub_title)
+
                 elif child.name == 'p':
                     sub_contents.append(child.get_text().strip())
+                    # print(child.get_text())
 
 
             with open('result.txt', 'w') as f:
@@ -69,14 +83,19 @@ class Crawling():
                     f.write('SECTION: {}\n'.format(section['title']))
                     f.write('{}\n'.format(section['content']))
 
+            with open('raw.txt', 'w') as f:
+                f.write(json.dumps(article, indent='\t'))
+
+            return article
 
         else :
             print(response.status_code)
+            return -1
 
 
 if __name__ == '__main__':
-    Crawling.search_article("covid")
-
-
-
-# headline과 url만 따오자
+    c = Crawling()
+    term = input()
+    data = c.search_article(term)
+    print(data[0]["url"])
+    c.get_article(data[0]["url"])
