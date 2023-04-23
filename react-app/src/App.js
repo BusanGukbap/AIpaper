@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Button from './Button';
 import InputBox from './InputBox';
@@ -48,10 +47,23 @@ function App() {
         <InputBox onChange={handleInputChange} value={inputValue} />
         <Button type="submit" text="키워드 전송" />
       </form>
-      
-      {headlines.map((headline, index) => (
-        <p key={headline} onClick={() => handleHeadlineClick(index)}>{headline}</p>
-      ))}
+
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Headline</th>
+          </tr>
+        </thead>
+        <tbody>
+          {headlines.map((headline, index) => (
+            <tr key={headline}>
+              <td>{index + 1}</td>
+              <td onClick={() => handleHeadlineClick(index)}>{headline}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
