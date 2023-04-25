@@ -6,6 +6,8 @@ import OutputBox from './OutputBox';
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [headlines, setHeadlines] = useState([]);
+  const [summary, setSummary] = useState('');
+  const [url, seturl] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,6 +24,8 @@ function App() {
 
     setHeadlines(data.headlines);
     setInputValue('');
+    setSummary('');
+    seturl(data.url);
   };
 
   const handleInputChange = (event) => {
@@ -34,10 +38,14 @@ function App() {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ index })
+      body: JSON.stringify({ 
+        index:index,
+        url : url[index]
+        })
     });
-
-    // handle the response from the Flask endpoint
+//    setSummary('123456789'); 
+    const data = await response.json();
+    setSummary(data.summary);
   }
 
   return (
@@ -64,6 +72,13 @@ function App() {
           ))}
         </tbody>
       </table>
+
+      {summary && (
+        <div>
+          <h2>Summary</h2>
+          <p>{summary}</p>
+        </div>
+      )}
     </div>
   );
 }

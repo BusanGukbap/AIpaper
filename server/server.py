@@ -41,17 +41,23 @@ def search_article():
     keyword = data['keyword']
     articles = crawling.search_article(keyword)
     headlines = get_headlines(articles)
-    return {'headlines': headlines}
+    url = []
+    for arti in articles:
+        url.append(arti['url'])
 
-'''
-@app.route('api/get_summary', methods=['POST']) # 플라스크가 리액트로 headlines 주고, 리액트가 플라스크로 선택된 index를 줌
+#    url = get_article_url(headlines, index)
+    return {'headlines': headlines, 'url' : url}
+
+@app.route('/api/get_summary', methods=['POST']) # 플라스크가 리액트로 headlines 주고, 리액트가 플라스크로 선택된 index를 줌
 def get_summary():
     data = request.get_json()
     index = data['index']
-    #url = get_article_url(headlines, index)
-    #article = crawling.get_article(url)
-    #gpt = Gpt(article)
-    #summary = gpt.getresponse()
-    return 0 #return {'summary' : summary} //리액트로 요약 보내기
-'''
+    url = data['url']
+    article = crawling.get_article(url)
+    gpt = Gpt(article)
+    summary = gpt.getresponse()
+    return {'summary' : summary} #리액트로 요약 보내기
+    #return 0 
+
+
 app.run(host="0.0.0.0", port=5010)
