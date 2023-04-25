@@ -1,12 +1,11 @@
 import React from 'react';
 
-function Output(props) {
+function OutputBox(props) {
   return (
-    <div style={{ height: '100px' }}>
-      <p>{props.value}</p>
-
+    <div>
+      <p>{props.text}</p>
     </div>
   );
 }
 
-export default Output;
+export default OutputBox;
