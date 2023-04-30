@@ -5,49 +5,25 @@ import OutputBox from './OutputBox';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
-  const [headlines, setHeadlines] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [summary, setSummary] = useState('');
-  const [url, seturl] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const response = await fetch('http://localhost:5010/api/search_article', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ keyword: inputValue })
-    });
-
+    const response = await fetch(`http://localhost:5010/api/search_article?keyword=${inputValue}`);
     const data = await response.json();
-
-    setHeadlines(data.headlines);
+    setArticles(data.articles);
     setInputValue('');
     setSummary('');
-    seturl(data.url);
   };
-
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
-  }
-
-  const handleHeadlineClick = async (index) => {
-    const response = await fetch('http://localhost:5010/api/get_summary', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ 
-        index:index,
-        url : url[index]
-        })
-    });
-//    setSummary('123456789'); 
+  };
+  const handleHeadlineClick = async (url) => {
+    const response = await fetch(`http://localhost:5010/api/get_summary?url=${url}`);
     const data = await response.json();
     setSummary(data.summary);
-  }
-
+  };
   return (
     <div>
       <h1> AIPaper </h1>
@@ -64,10 +40,10 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {headlines.map((headline, index) => (
-            <tr key={headline}>
+          {articles.map((article, index) => (
+            <tr key={index}>
               <td>{index + 1}</td>
-              <td onClick={() => handleHeadlineClick(index)}>{headline}</td>
+              <td onClick={() => handleHeadlineClick(article.url)}>{article.headline}</td>
             </tr>
           ))}
         </tbody>
