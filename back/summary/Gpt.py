@@ -1,9 +1,9 @@
+import openai
+import tokens
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
-import tokens
-import openai
 
 '''
 article:dict = {'title:str', 'sections:list'}
@@ -42,6 +42,18 @@ class Gpt:
         self.message = [
             {'role': 'user', 'content': f'Summarize the following article in 3 sentences : {text}'}]
 
+    def raise_difficulty(self):
+        text = self.response['choices'][0]['message']['content']
+        self.message = [
+            {'role': 'user', 'content': f'Raise the difficulty of the vocabulary a little : {text}'}]
+        return self.getresponse()
+
+    def lower_difficulty(self):
+        text = self.response['choices'][0]['message']['content']
+        self.message = [
+            {'role': 'user', 'content': f'Lower the difficulty of the vocabulary a bit : {text}'}]
+        return self.getresponse()
+
 
 # Print the generated text from the response
 if (__name__ == '__main__'):
@@ -51,4 +63,11 @@ if (__name__ == '__main__'):
     res = g.getresponse()
     # print(res)
     # print()
+    print(res['choices'][0]['message']['content'])
+    print()
+    res = g.raise_difficulty()
+    print(res['choices'][0]['message']['content'])
+    print()
+    res = g.lower_difficulty()
+    res = g.lower_difficulty()
     print(res['choices'][0]['message']['content'])
