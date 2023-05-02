@@ -12,6 +12,9 @@ class Crawling():
         search_url = f"https://search.api.cnn.com/content?q={search_term}&size=10&from=0&page=1&sort=newest&type=article"
         response = requests.get(search_url)
 
+        with open("search_result.json", "w") as f:
+            json.dump(response.json(), f, indent=4)
+
         articles = []
         if response.status_code == 200:
             for result in response.json()["result"]:
@@ -32,7 +35,8 @@ class Crawling():
             html = response.text
             soup = BeautifulSoup(html, 'html.parser')
             
-            title = soup.select_one('body > div.layout__content-wrapper.layout-with-rail__content-wrapper > section.layout__top.layout-with-rail__top > div.headline.headline--has-lowertext > div.headline__wrapper').get_text().strip()
+            title = soup.find('div', 'headline').get_text()
+            print(title)
             body = soup.find('div', 'article__content')
 
             # list the first level children of the body
@@ -55,31 +59,21 @@ class Crawling():
                 elif child.name == 'p':
                     sub_contents.append(child.get_text().strip())
 
-                # 이미지 및 동영상 caption 처리
-                elif child.name == 'div':
-                    # find a tag, 'picture' or 'video' in the div
-                    picture = child.find('picture')
-                    video = child.find('video')
-                    if picture:
-                        caption = child.find('div', 'image__caption').get_text().strip()
-                        sub_contents.append('*** IMAGE: {}'.format(caption))
-                    elif video:
-                        caption = child.find('div', 'video-resource__details').get_text().strip()
-                        sub_contents.append('*** VIDEO: {}'.format(caption))
-
             article['sections'].append({
                 'title': sub_title,
                 'content': '\n'.join(sub_contents)
             })
 
-            # with open('result.txt', 'w') as f:
-            #     f.write('TITLE: {}\n'.format(article['title']))
-            #     for section in article['sections']:
-            #         f.write('SECTION: {}\n'.format(section['title']))
-            #         f.write('{}\n'.format(section['content']))
+            with open('raw.txt', 'w') as f:
+                f.write(json.dumps(article, indent='\t'))
+            with open('result.txt', 'w') as f:
+                f.write('TITLE: {}\n'.format(article['title']))
+                for section in article['sections']:
+                    f.write('SECTION: {}\n'.format(section['title']))
+                    f.write('{}\n'.format(section['content']))
 
-            # with open('raw.txt', 'w') as f:
-            #     f.write(json.dumps(article, indent='\t'))
+            with open('raw.txt', 'w') as f:
+                f.write(json.dumps(article, indent='\t'))
 
             return article
 
@@ -93,4 +87,4 @@ if __name__ == '__main__':
     term = input()
     data = c.search_article(term)
     print(data[0]["url"])
-    c.get_article(data[0]["url"])
+    print(c.get_article(data[0]["url"]))
