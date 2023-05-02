@@ -26,7 +26,8 @@ def search_article():
 def get_summary():
     url = request.args.get('url')
     article = crawling.get_article(url)
-    #summary = gpt.setmessage(article)
-    return jsonify({'summary' : article})
+    gpt.setmessage(article)
+    summary = gpt.getresponse()
+    return jsonify({'summary' : summary['choices'][0]['message']['content']})
 
 app.run(host="0.0.0.0", port=5010, debug=True)
