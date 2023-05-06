@@ -8,6 +8,28 @@ function App() {
   const [articles, setArticles] = useState([]);
   const [summary, setSummary] = useState('');
 
+  const handleSignUp = async (id, pw) => {
+    const response = await fetch('http://localhost:5010/api/sign_up', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id, pw }),
+    });
+    const result = await response.json();
+    console.log(result);
+  };
+  const handleSignIn = async (id, pw) => {
+    const response = await fetch('http://localhost:5010/api/sign_in', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id, pw }),
+    });
+    const result = await response.json();
+    console.log(result);
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await fetch(`http://localhost:5010/api/search_article?keyword=${inputValue}`);
@@ -26,6 +48,26 @@ function App() {
   };
   return (
     <div>
+      <h1> Sign Up </h1>
+      <form onSubmit={(event) => {
+        event.preventDefault();
+        handleSignUp(event.target.id.value, event.target.pw.value);
+      }}>
+        <input type="text" name="id" placeholder="ID" />
+        <input type="password" name="pw" placeholder="PW" />
+        <button type="submit">Sign Up</button>
+      </form>
+
+      <h1> Sign In </h1>
+      <form onSubmit={(event) => {
+        event.preventDefault();
+        handleSignIn(event.target.id.value, event.target.pw.value);
+      }}>
+        <input type="text" name="id" placeholder="ID" />
+        <input type="password" name="pw" placeholder="PW" />
+        <button type="submit">Sign In</button>
+      </form>
+      
       <h1> AIPaper </h1>
       <form onSubmit={handleSubmit}>
         <InputBox onChange={handleInputChange} value={inputValue} />
