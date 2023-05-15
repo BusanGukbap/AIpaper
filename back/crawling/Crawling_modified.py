@@ -66,10 +66,34 @@ class Crawling():
                 'err_msg': response.text
             } 
 
+    def search_article(self, serach_term : str, language='en' : str) -> None:
+        # Init api
+        newsapi = NewsApiClient(api_key=tokens.news_key)
+        
+        # sort_by: relevancy, popularity, publishedAt
+        sources = newsapi.get_everything(q=serach_term, language=language, sort_by='relevancy')
+
+        if sources['status'] == 'ok':
+            articles = []
+            for article in sources['articles']:
+                data = {
+                    "title" : article["title"]
+                    "url" : article["url"]
+                    "publishedAt" : article["publishedAt"]
+                    "source" : article["source"]["name"]
+                }
+                articles.append(data)
+            return articles
+        else:
+            print("error: ", sources["code"])
+            # error message in here
+            # https://newsapi.org/docs/errors
+            return -1
+
 
 
     # CNN only
-    def search_article(self, search_term : str) -> None:
+    def search_article_CNN(self, search_term : str) -> None:
         search_url = f"https://search.api.cnn.com/content?q={search_term}&size=10&from=0&page=1&sort=newest&type=article"
         response = requests.get(search_url)
 
