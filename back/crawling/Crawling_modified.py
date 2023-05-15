@@ -1,3 +1,8 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
+import tokens
 from bs4 import BeautifulSoup
 import requests
 from langdetect import detect
@@ -201,8 +206,12 @@ class Crawling():
 if __name__ == '__main__':
     c = Crawling()
     term = input()
-    data = c.search_article_CNN(term)
+    data = c.search_article(term)
     # print(data[0]["url"])
-    print(data)
+    res = c.read_webpage(data[0]["url"])
+    with open('result.json', 'w') as f:
+        json.dump(data, f, indent=4)
+    with open('article.json', 'w') as f:
+        json.dump(res, f, indent=4)
     # print(c.get_article(data[0]["url"]))
     # print(c.read_webpage('https://www.foxnews.com/us/illinois-interstate-crash-involving-72-vehicles-leaves-six-dead-more-30-injured-horrific'))
