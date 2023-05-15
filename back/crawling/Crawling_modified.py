@@ -66,7 +66,7 @@ class Crawling():
                 'err_msg': response.text
             } 
 
-    def search_article(self, serach_term : str, language='en' : str) -> None:
+    def search_article(self, serach_term : str, language : str ='en') -> None:
         # Init api
         newsapi = NewsApiClient(api_key=tokens.news_key)
         
@@ -77,9 +77,9 @@ class Crawling():
             articles = []
             for article in sources['articles']:
                 data = {
-                    "title" : article["title"]
-                    "url" : article["url"]
-                    "publishedAt" : article["publishedAt"]
+                    "title" : article["title"],
+                    "url" : article["url"],
+                    "publishedAt" : article["publishedAt"],
                     "source" : article["source"]["name"]
                 }
                 articles.append(data)
@@ -198,8 +198,8 @@ class Crawling():
 
 if __name__ == '__main__':
     c = Crawling()
-    # term = input()
-    # data = c.search_article(term)
-    # print(data[0]["url"])
-    # print(c.get_article('https://www.foxnews.com/us/illinois-interstate-crash-involving-72-vehicles-leaves-six-dead-more-30-injured-horrific'))
-    print(c.read_webpage('https://www.foxnews.com/us/illinois-interstate-crash-involving-72-vehicles-leaves-six-dead-more-30-injured-horrific'))
+    term = input()
+    data = c.search_article_CNN(term)
+    print(data[0]["url"])
+    # print(c.get_article(data[0]["url"]))
+    # print(c.read_webpage('https://www.foxnews.com/us/illinois-interstate-crash-involving-72-vehicles-leaves-six-dead-more-30-injured-horrific'))
