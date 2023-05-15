@@ -77,7 +77,7 @@ class Crawling():
             articles = []
             for article in sources['articles']:
                 data = {
-                    "title" : article["title"],
+                    "headline" : article["title"],
                     "url" : article["url"],
                     "publishedAt" : article["publishedAt"],
                     "source" : article["source"]["name"]
@@ -105,7 +105,9 @@ class Crawling():
             for result in response.json()["result"]:
                 data = {
                     "headline": result["headline"],
-                    "url": result["url"]
+                    "url": result["url"],
+                    "publishedAt": result["lastPublishDate"],
+                    "source": result["source"]
                 }
                 articles.append(data)
             return articles
@@ -200,6 +202,7 @@ if __name__ == '__main__':
     c = Crawling()
     term = input()
     data = c.search_article_CNN(term)
-    print(data[0]["url"])
+    # print(data[0]["url"])
+    print(data)
     # print(c.get_article(data[0]["url"]))
     # print(c.read_webpage('https://www.foxnews.com/us/illinois-interstate-crash-involving-72-vehicles-leaves-six-dead-more-30-injured-horrific'))
