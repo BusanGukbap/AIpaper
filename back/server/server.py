@@ -4,8 +4,9 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import tokens
 
 import json
-from back.crawling.Crawling import *
-from back.summary.Gpt import *
+from crawling.Crawling import *
+from summary.Gpt import *
+from translate.translate import *
 
 from flask_cors import CORS
 from flask import Flask, jsonify, request, session
@@ -16,11 +17,11 @@ cred = credentials.Certificate(tokens.firebase_key)
 default_app = initialize_app(cred)
 
 app = Flask(__name__)
-app.secret_key = 'secret_key'
 CORS(app)
 
 crawling = Crawling()
 gpt = Gpt()
+translator_ = translator()
 
 @app.route('/api/sign_up', methods=['POST'])
 def sign_up():
@@ -67,5 +68,21 @@ def get_summary():
     gpt.setmessage(article)
     summary = gpt.getresponse()
     return jsonify({'summary' : summary['choices'][0]['message']['content']})
+
+@app.route('/api/get_rasie_difficulty', methods=['GET'])
+def get_rasie_difficulty():
+    raise_difficulty = gpt.raise_difficulty()
+    return jsonify({'raise_difficulty' : raise_difficulty['choices'][0]['message']['content']})
+
+@app.route('/api/get_lower_difficulty', methods=['GET'])
+def get_lower_difficulty():
+    lower_difficulty = gpt.lower_difficulty()
+    return jsonify({'lower_difficulty' : lower_difficulty['choices'][0]['message']['content']})
+
+@app.route('/api/get_translate', methods=['GET'])
+def get_translate():
+    text = request.args.get('text')
+    result = translator_.getresult(text)
+    return jsonify({'result' : result['translatedText']})
 
 app.run(host="0.0.0.0", port=5010, debug=True)
