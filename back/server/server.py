@@ -4,8 +4,9 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import tokens
 
 import json
-from back.crawling.Crawling import *
-from back.summary.Gpt import *
+from crawling.Crawling import *
+from summary.Gpt import *
+from translate.translate import *
 
 from flask_cors import CORS
 from flask import Flask, jsonify, request, session
