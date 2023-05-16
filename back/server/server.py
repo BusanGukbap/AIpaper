@@ -83,6 +83,6 @@ def get_lower_difficulty():
 def get_translate():
     text = request.args.get('text')
     result = translator_.getresult(text)
-    return jsonify({'result' : result['translatedText']})
+    return jsonify({'result' : result['translatedText']}) 
 
 app.run(host="0.0.0.0", port=5010, debug=True)
