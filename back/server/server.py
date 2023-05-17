@@ -54,34 +54,34 @@ def sign_in():
         return jsonify({'success': False, 'message': str(e)})
 
 
-@app.route('/api/search_article', methods=['GET'])
-def search_article():
+@app.route('/api/article', methods=['GET'])
+def article():
     keyword = request.args.get('keyword')
     articles = crawling.search_article(keyword)
     # articles = [{'headline':str, 'url':str}, ...]
     return jsonify({'articles': articles})
 
-@app.route('/api/get_summary', methods=['GET'])
-def get_summary():
+@app.route('/api/summary', methods=['GET'])
+def summary():
     url = request.args.get('url')
     article = crawling.get_article(url)
     gpt.setmessage(article)
     summary = gpt.getresponse()
     return jsonify({'summary' : summary['choices'][0]['message']['content']})
 
-@app.route('/api/get_rasie_difficulty', methods=['GET'])
-def get_rasie_difficulty():
+@app.route('/api/difficulty')
+def difficulty():
     raise_difficulty = gpt.raise_difficulty()
     return jsonify({'raise_difficulty' : raise_difficulty['choices'][0]['message']['content']})
 
-@app.route('/api/get_lower_difficulty', methods=['GET'])
-def get_lower_difficulty():
+@app.route('/api/ease')
+def ease():
     lower_difficulty = gpt.lower_difficulty()
     return jsonify({'lower_difficulty' : lower_difficulty['choices'][0]['message']['content']})
 
-@app.route('/api/get_translate', methods=['GET'])
-def get_translate():
-    text = request.args.get('text')
+@app.route('/api/translation', methods=['POST'])
+def translation():
+    text = request.get_json()['text']
     result = translator_.getresult(text)
     return jsonify({'result' : result['translatedText']}) 
 
