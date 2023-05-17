@@ -54,8 +54,8 @@ class Crawling():
             }
             for p in body:
                 article['sections'].append(p.text)
-            with open('result.txt', 'w') as f:
-                f.write(json.dumps(article, indent='\t'))
+            # with open('result.txt', 'w') as f:
+            #     f.write(json.dumps(article, indent='\t'))
             return article
         else:
             print(response.status_code)
