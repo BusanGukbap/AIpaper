@@ -1,32 +1,41 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+import tokens
+
 from bs4 import BeautifulSoup
 import requests
+from langdetect import detect
 import json
+from newsapi import NewsApiClient
 
 
 class Crawling():
-    def __init__(self):
-        # userinfo
-        pass
 
-    def search_article(self, search_term : str) -> None:
-        search_url = f"https://search.api.cnn.com/content?q={search_term}&size=10&from=0&page=1&sort=newest&type=article"
-        response = requests.get(search_url)
+    def search_article(self, serach_term : str, language : str ='en') -> None:
+        # Init api
+        newsapi = NewsApiClient(api_key=tokens.news_key)
+        
+        # sort_by: relevancy, popularity, publishedAt
+        sources = newsapi.get_everything(q=serach_term, language=language, sort_by='relevancy')
 
-        with open("search_result.json", "w") as f:
-            json.dump(response.json(), f, indent=4)
-
-        articles = []
-        if response.status_code == 200:
-            for result in response.json()["result"]:
+        if sources['status'] == 'ok':
+            articles = []
+            for article in sources['articles']:
                 data = {
-                    "headline": result["headline"],
-                    "url": result["url"]
+                    "headline" : article["title"],
+                    "url" : article["url"],
+                    "publishedAt" : article["publishedAt"],
+                    "source" : article["source"]["name"]
                 }
                 articles.append(data)
             return articles
         else:
-            print("error: ", response.status_code)
+            print("error: ", sources["code"])
+            # error message in here
+            # https://newsapi.org/docs/errors
             return -1
+
 
     def get_article(self, url: str):
         if 'https://edition.cnn.com/' in url:
@@ -41,8 +50,6 @@ class Crawling():
 
                 # list the first level children of the body
                 children = body.findChildren(recursive=False)
-                sub_title = 'INTRO'
-                sub_contents = []
                 article = {
                     'title': title,
                     'sections': []
@@ -90,18 +97,14 @@ class Crawling():
                 body = soup.find_all('p')
 
                 # list the first level children of the body
-                sub_title = 'INTRO'
-                sub_contents = []
                 article = {
                     'title': title,
                     'sections': []
                 }
                 for p in body:
-                    sub_contents.append(p.text)
-                article['sections'].append({
-                    'title': sub_title,
-                    'content': '\n'.join(sub_contents)
-                })
+                    article['sections'].append(p.text)
+                with open('result.txt', 'w') as f:
+                    f.write(json.dumps(article, indent='\t'))
                 return article
             else:
                 print(response.status_code)
@@ -111,7 +114,10 @@ class Crawling():
 
 if __name__ == '__main__':
     c = Crawling()
-    # term = input()
-    # data = c.search_article(term)
+    term = input()
+    data = c.search_article(term)
+
     # print(data[0]["url"])
-    print(c.get_article('https://www.foxnews.com/us/illinois-interstate-crash-involving-72-vehicles-leaves-six-dead-more-30-injured-horrific'))
+    # print(data)
+    print(c.get_article(data[0]["url"]))
+    # print(c.read_webpage('https://www.foxnews.com/us/illinois-interstate-crash-involving-72-vehicles-leaves-six-dead-more-30-injured-horrific'))
