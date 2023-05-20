@@ -5,7 +5,6 @@ import tokens
 
 from bs4 import BeautifulSoup
 import requests
-from langdetect import detect
 import json
 from newsapi import NewsApiClient
 
