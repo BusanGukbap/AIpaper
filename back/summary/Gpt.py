@@ -4,11 +4,8 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import tokens
-'''
-article:dict = {'title:str', 'sections:list'}
-sections:list = [section:dict]
-section:dict = {'subtitle':str, 'content':str}
-'''
+
+#article:dict = {'section':list}
 
 class Gpt:
     def __init__(self):
@@ -50,28 +47,28 @@ class Gpt:
         text = ''
         self.message = []
         for d in article['sections']:
-            text = text + (d['content'])
+            text = text + d
             if (self.checktoken(text) > max_tokens*0.8):
                 self.message.append(text)
                 #self.prompt.append([{'role': 'user', 'content': f'Summarize the following article in 3 sentences : {text}'}])
                 text = ''
         self.message.append(text)
 
-    def raise_difficulty(self):
+    def high_difficulty(self):
         text = self.summary['choices'][0]['message']['content']
         self.highdiff = openai.ChatCompletion.create(
             model=self.model_engine,
-            messages=[{'role': 'user', 'content': f'Raise the difficulty of the vocabulary a little : {text}'}],
+            messages=[{'role': 'user', 'content': f'Turn it into college-level vocabulary : {text}'}],
             # temperature=temperature,
             max_tokens=self.max_tokens,
         )
         return self.highdiff
 
-    def lower_difficulty(self):
+    def low_difficulty(self):
         text = self.summary['choices'][0]['message']['content']
         self.lowdiff = openai.ChatCompletion.create(
             model=self.model_engine,
-            messages=[{'role': 'user', 'content': f'Lower the difficulty of the vocabulary a bit : {text}'}],
+            messages=[{'role': 'user', 'content': f'Change it to elementary school level vocabulary : {text}'}],
             # temperature=temperature,
             max_tokens=self.max_tokens,
         )
