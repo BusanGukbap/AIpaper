@@ -35,6 +35,6 @@ def sign_in():
 
         if user:
             session['user'] = user
-            return jsonify({'success': True})
+            return jsonify({'success': True, 'uid': user.uid})
         else:
             return jsonify({'success': False, 'message': '아이디 또는 비밀번호가 틀렸습니다.'})
