@@ -69,15 +69,14 @@ def summary():
     summary = gpt.getresponse()
     return jsonify({'summary' : summary['choices'][0]['message']['content']})
 
-@app.route('/api/difficulty')
+@app.route('/api/difficulty', methods=['POST'])
 def difficulty():
-    raise_difficulty = gpt.raise_difficulty()
-    return jsonify({'raise_difficulty' : raise_difficulty['choices'][0]['message']['content']})
-
-@app.route('/api/ease')
-def ease():
-    lower_difficulty = gpt.lower_difficulty()
-    return jsonify({'lower_difficulty' : lower_difficulty['choices'][0]['message']['content']})
+    difficulty = request.get_json()['difficulty']
+    if difficulty == 'easy':
+        summary = gpt.lower_difficulty()
+    elif difficulty == 'hard':
+        summary = gpt.raise_difficulty()
+    return jsonify({'result' : summary['choices'][0]['message']['content']})
 
 @app.route('/api/translation', methods=['POST'])
 def translation():
