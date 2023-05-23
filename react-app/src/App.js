@@ -151,8 +151,8 @@ function App() {
           {trnaslatedText && (
             <div style={tooltipStyle} onClick={handleTranslatedTextClick}>{trnaslatedText}</div>
           )}
-          <button onClick={() => handledifficulty("ease")}>easy</button>
-          <button onClick={() => handledifficulty("difficulty")}>difficult</button>
+          <button onClick={() => handledifficulty("easy")}>easy</button>
+          <button onClick={() => handledifficulty("hard")}>hard</button>
         </div>
       )}
     </div>
