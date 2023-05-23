@@ -71,7 +71,6 @@ def summary():
 
 @app.route('/api/difficulty', methods=['POST'])
 def difficulty():
-    #post해서 값을 받아온 다음 정하기
     difficulty = request.get_json()['difficulty']
     if difficulty == 'easy':
         summary = gpt.lower_difficulty()
