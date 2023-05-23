@@ -6,7 +6,40 @@ import OutputBox from './OutputBox';
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [articles, setArticles] = useState([]);
-  const [summary, setSummary] = useState('');
+  const [summary, setSummary] = useState(' this is a summary');
+
+  const [trnaslatedText, setTranslatedText] = useState('');
+  const [tooltipStyle, setTooltipStyle] = useState({});
+
+  const handleTranslate = async (event) => {
+    console.log("mouseup");
+    const selectedText = window.getSelection().toString();
+    console.log(selectedText);
+    if (selectedText) {
+      const response = await fetch(`http://localhost:5010/api/translation`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: selectedText })
+      });
+      const data = await response.json();
+      console.log(data.result);
+      setTranslatedText(data.result);
+      setTooltipStyle({
+        display: 'block',
+        position: 'fixed',
+        top: event.clientY + 'px',
+        left: event.clientX + 'px',
+      });
+    }
+    //setTranslatedText('');
+    //setTooltipStyle({});
+  };
+  const handleClick = () => {
+    setTranslatedText('');
+    setTooltipStyle({});
+  };
 
   const handleSignUp = async (id, pw) => {
     const response = await fetch('http://localhost:5010/api/sign_up', {
@@ -32,7 +65,7 @@ function App() {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch(`http://localhost:5010/api/search_article?keyword=${inputValue}`);
+    const response = await fetch(`http://localhost:5010/api/article?keyword=${inputValue}`);
     const data = await response.json();
     setArticles(data.articles);
     setInputValue('');
@@ -42,7 +75,7 @@ function App() {
     setInputValue(event.target.value);
   };
   const handleHeadlineClick = async (url) => {
-    const response = await fetch(`http://localhost:5010/api/get_summary?url=${url}`);
+    const response = await fetch(`http://localhost:5010/api/summary?url=${url}`);
     const data = await response.json();
     setSummary(data.summary);
   };
@@ -94,7 +127,10 @@ function App() {
       {summary && (
         <div>
           <h2>Summary</h2>
-          <p>{summary}</p>
+          <p onMouseUp={handleTranslate}>{summary}</p>
+          {trnaslatedText && (
+            <div style={tooltipStyle} onClick={handleClick}>{trnaslatedText}</div>
+          )}
         </div>
       )}
     </div>
