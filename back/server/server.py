@@ -6,7 +6,7 @@ import tokens
 import json
 from crawling.Crawling import *
 from summary.Gpt import *
-from login import *
+from auth import *
 
 from flask_cors import CORS
 from flask import Flask, jsonify, request, session

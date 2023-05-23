@@ -1,5 +1,5 @@
 import firebase_admin
-from firebase_admin import credentials, firestore, initialize_app, auth
+from firebase_admin import credentials, firestore, initialize_app
 
 class DatabaseAccess:
 
@@ -12,7 +12,7 @@ class DatabaseAccess:
 
     def generate_uid():
         # uid 생성
-        return auth.create_user().uid
+        return firebase_admin.auth.create_user().uid
 
     def save_user(self, uid, id, pw):
         # 사용자 정보 저장
