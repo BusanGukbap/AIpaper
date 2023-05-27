@@ -132,3 +132,4 @@ dmypy.json
 # api keys
 tokens.py
 key.json
+credentials.json

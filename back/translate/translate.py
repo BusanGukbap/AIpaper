@@ -1,13 +1,14 @@
 import os
 from google.cloud import translate_v2 as translate
+from google.oauth2 import service_account
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 
 class translator:
-    def __init__(self):
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'key.json'
-        self.client = translate.Client()
+    def __init__(self, google_key_path):
+        credentials = service_account.Credentials.from_service_account_file(google_key_path)
+        self.client = translate.Client(credentials=credentials)
 
     def getresult(self, text):
         result = self.client.translate(text, target_language='ko')
