@@ -8,25 +8,12 @@ import Button from '../components/Button';
  * @returns JSX.Element
  */
 
-const qs = (sel) => document.querySelector(sel);
-
 function LoginPage({ /* onSignUp, onSignIn */ }) {
     const navigate = useNavigate();
 
     const goToHome = () => { 
         navigate("/");
       }
-
-    const createHeader = (id, pw) => ({
-        method: "POST",
-        headers: {"Content-Type": "application/json",},
-        body: JSON.stringify({ id, pw }),
-    })
-
-    const preventEvent = (handler) => (event) => {
-        event.preventDefault();
-        handler(event);
-    }
 
     // 회원가입
     const handleSignUp = async (id, pw) => {
