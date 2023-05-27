@@ -20,8 +20,8 @@ gpt = Gpt()
 translator_ = translator()
 
 
-@app.route('/api/sign_up', view_func=sign_up, methods=['POST'])
-@app.route('/api/sign_in', view_func=sign_in, methods=['POST'])
+@app.route('/api/sign_up', view_func=auth.sign_up, methods=['POST'])
+@app.route('/api/sign_in', view_func=auth.sign_in, methods=['POST'])
 
 @app.route('/api/article', methods=['GET'])
 def article():
