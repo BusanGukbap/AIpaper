@@ -37,6 +37,7 @@ function App() {
     console.log(data.result);
     setSummary(data.result);
   };
+
   const handleTranslate = async (event) => {
     console.log("mouseup");
     const selectedText = window.getSelection().toString();
@@ -62,6 +63,7 @@ function App() {
       });
     }
   };
+
   const handleTranslatedTextClick = () => {
     setTranslatedText('');
     setTooltipStyle({});
@@ -75,14 +77,17 @@ function App() {
     setInputValue('');
     setSummary('');
   };
+
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
+
   const handleHeadlineClick = async (url) => {
     const response = await fetch(`http://localhost:5010/api/summary?url=${url}`);
     const data = await response.json();
     setSummary(data.summary);
   };
+  
   return (
     <div>
       <Button type = "submit" text = "Login" onClick={goToLogin}/>
