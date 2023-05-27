@@ -37,7 +37,7 @@ class DatabaseAccess:
         user = self.get_user_by_id(id)
         if user is not None:
             if user['pw'] == pw:
-                return user.to_dict()
+                return user
 
         return None
 
