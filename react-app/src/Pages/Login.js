@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Button from '../components/Button';
+//import Button from '../components/Button';
+import { Button } from 'react-bootstrap';
 
 /**
  * 회원가입 페이지
@@ -43,7 +44,7 @@ function LoginPage({ /* onSignUp, onSignIn */ }) {
 
     return (
         <div>
-            <Button type = "submit" text = "Home" onClick={goToHome}/>
+            <Button type = "submit" onClick={goToHome} variant="light">Home</Button>
             <h1> Sign Up </h1>
             <form onSubmit={(event) => {
                 event.preventDefault();
@@ -51,7 +52,7 @@ function LoginPage({ /* onSignUp, onSignIn */ }) {
             }}>
                 <input type="text" name="id" placeholder="ID" />
                 <input type="password" name="pw" placeholder="PW" />
-                <button type="submit">Sign Up</button>
+                <Button type="submit">Sign Up</Button>
             </form>
 
             <h1> Sign In </h1>

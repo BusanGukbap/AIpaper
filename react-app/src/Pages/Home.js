@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
-import Button from '../components/Button';
+//import Button from '../components/Button';
 import InputBox from '../components/InputBox';
 import OutputBox from '../components/OutputBox';
 import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Nav from 'react-bootstrap/Nav';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function App() {
   const navigate = useNavigate();
@@ -90,14 +96,27 @@ function App() {
   
   return (
     <div>
-      <Button type = "submit" text = "Login" onClick={goToLogin}/>
-
+      <Container>
+        <Row>
+          <Col xs={4}>
+      <Nav defaultActiveKey="/" className="flex-column">
+        <Nav.Link href="/">Home</Nav.Link>
+        <Nav.Link onClick={goToLogin}>Login</Nav.Link>
+        <Nav.Link eventKey="link-2">Link</Nav.Link>
+        <Nav.Link eventKey="disabled" disabled>Disabled</Nav.Link>
+      </Nav>
+          </Col>
+          <Col>
       <h1> AIPaper </h1>
       <form onSubmit={handleSubmit}>
         <InputBox onChange={handleInputChange} value={inputValue} />
-        <Button type="submit" text="키워드 전송" />
+        <Button type="submit">search</Button>
       </form>
+      </Col>
 
+       </Row>
+       <Row>
+        <Col md={{ span: 6, offset: 3 }}>
       <table>
         <thead>
           <tr>
@@ -122,10 +141,16 @@ function App() {
           {trnaslatedText && (
             <div style={tooltipStyle} onClick={handleTranslatedTextClick}>{trnaslatedText}</div>
           )}
-          <button onClick={() => handledifficulty("easy")}>easy</button>
-          <button onClick={() => handledifficulty("hard")}>hard</button>
+          <ButtonGroup aria-label="Basic example">
+            <Button variant="secondary" onClick={() => handledifficulty("easy")}>High</Button>
+            <Button variant="secondary">Middle</Button>
+            <Button variant="secondary" onClick={() => handledifficulty("hard")}>Low</Button>
+          </ButtonGroup>
         </div>
       )}
+      </Col>
+      </Row>
+      </Container>
     </div>
   );
 }
