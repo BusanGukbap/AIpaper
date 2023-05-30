@@ -9,6 +9,7 @@ class DatabaseAccess:
         default_app = initialize_app(cred)
         self.db = firestore.client()
         self.user_ref = self.db.collection('Users')
+        self.search_history_ref = self.db.collection('search_history')
 
     def generate_uid(self):
         # uid 생성
@@ -40,4 +41,30 @@ class DatabaseAccess:
                 return user
 
         return None
+
+    def get_search_history(self, uid):
+        # 검색 기록 가져오기
+        doc = self.search_history_ref.document(uid).get()
+        if doc.exists:
+            return doc.to_dict()
+        else:
+            return None
+
+    def save_search_history(self, uid, article: dict):
+        # article = {'title':str, 'url':str}
+        # 검색 기록 저장
+        doc = self.search_history_ref.document(uid).get()
+        if doc.exists:
+            articles = doc.get('articles', [])
+            articles.append(article)
+            self.search_history_ref.document(uid).update({
+                'articles': articles
+            })
+
+        else:
+            data = {
+                'articles': [article],
+                'uid': uid
+            }
+            self.search_history_ref.document(uid).set(data)
 
