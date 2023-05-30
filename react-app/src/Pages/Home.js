@@ -9,6 +9,10 @@ import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Table from 'react-bootstrap/Table';
+import Card from 'react-bootstrap/Card';
+import Toast from 'react-bootstrap/Toast';
+import CloseButton from 'react-bootstrap/CloseButton';
 
 function App() {
   const navigate = useNavigate();
@@ -65,7 +69,7 @@ function App() {
         top: event.clientY + 'px',
         left: event.clientX + 'px',
         backgroundColor: 'white',
-        opacity: 0.9,
+        opacity: 1,
       });
     }
   };
@@ -117,7 +121,7 @@ function App() {
        </Row>
        <Row>
         <Col md={{ span: 6, offset: 3 }}>
-      <table>
+      <Table striped border hover>
         <thead>
           <tr>
             <th>#</th>
@@ -132,22 +136,31 @@ function App() {
             </tr>
           ))}
         </tbody>
-      </table>
-
+      </Table>
+      <Card border="dark">
+        <Card.Body>
       {summary && (
         <div>
-          <h2>Summary</h2>
-          <p onMouseUp={handleTranslate}>{summary}</p>
+          <Card.Header className="text-center">Summary</Card.Header>
+          <Card.Text onMouseUp={handleTranslate}>{summary}</Card.Text>
           {trnaslatedText && (
-            <div style={tooltipStyle} onClick={handleTranslatedTextClick}>{trnaslatedText}</div>
+            <Toast style={tooltipStyle} border>
+              <Toast.Header closeButton={false}>
+                <strong className="m-auto">Translated Text</strong>
+                <CloseButton onClick={handleTranslatedTextClick}/>
+              </Toast.Header>
+              <Toast.Body className="m-auto">{trnaslatedText}</Toast.Body>
+            </Toast>
           )}
-          <ButtonGroup aria-label="Basic example">
-            <Button variant="secondary" onClick={() => handledifficulty("easy")}>High</Button>
-            <Button variant="secondary">Middle</Button>
-            <Button variant="secondary" onClick={() => handledifficulty("hard")}>Low</Button>
+          <ButtonGroup className="d-flex">
+            <Button variant="info" onClick={() => handledifficulty("easy")}>Low</Button>
+            <Button variant="dark">Middle</Button>
+            <Button variant="danger" onClick={() => handledifficulty("hard")}>High</Button>
           </ButtonGroup>
         </div>
       )}
+        </Card.Body>
+      </Card>
       </Col>
       </Row>
       </Container>
