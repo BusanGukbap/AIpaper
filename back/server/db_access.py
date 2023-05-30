@@ -10,6 +10,7 @@ class DatabaseAccess:
         self.db = firestore.client()
         self.user_ref = self.db.collection('Users')
         self.search_history_ref = self.db.collection('search_history')
+        self.news_ref = self.db.collection('news')
 
     def generate_uid(self):
         # uid 생성
@@ -68,3 +69,24 @@ class DatabaseAccess:
             }
             self.search_history_ref.document(uid).set(data)
 
+    def search_news(self, url):
+        # url을 통해 기사 검색
+        query = self.news_ref.where('articles', 'array_contains', {'url': url}).limit(1).stream()
+
+        for doc in query:
+            return doc.to_dict()
+
+        return None
+
+    def save_news(self, news: dict):
+        # news = {'title':str, 'url':str, 'article':dict}
+        # article = {'origin':str, 'summary':str, 'difficulty':dict}
+        # difficulty = {'low':str, 'mid':str, 'high':str}
+        # 기사 저장
+        doc = self.search_news(news['url'])
+        if doc is not None:
+            articles = doc.get('articles', [])
+            articles.append(news['article'])
+            self.news_ref.document(doc['uid']).update({
+                'articles': articles
+            })
