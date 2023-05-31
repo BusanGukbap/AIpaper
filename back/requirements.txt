@@ -37,6 +37,7 @@ msgpack==1.0.5
 multidict==6.0.4
 newsapi-python==0.2.7
 openai==0.27.7
+pipdeptree==2.7.1
 proto-plus==1.22.2
 protobuf==4.23.2
 pyasn1==0.5.0
@@ -44,10 +45,12 @@ pyasn1-modules==0.3.0
 pycparser==2.21
 PyJWT==2.7.0
 pyparsing==3.0.9
+regex==2023.5.5
 requests==2.31.0
 rsa==4.9
 six==1.16.0
 soupsieve==2.4.1
+tiktoken==0.4.0
 tqdm==4.65.0
 uritemplate==4.1.1
 urllib3==1.26.16
