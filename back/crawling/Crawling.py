@@ -52,7 +52,12 @@ class Crawling():
                 'sections': []
             }
             for p in body:
-                article['sections'].append(p.text)
+                temp = p.get_text()
+                temp = temp.replace("’","\'")
+                temp = temp.replace("‘","\'")
+                temp = temp.replace("“","\"")
+                temp = temp.replace("”","\"")
+                article['sections'].append(temp)
             # with open('result.txt', 'w') as f:
             #     f.write(json.dumps(article, indent='\t'))
             return article
@@ -66,8 +71,3 @@ if __name__ == '__main__':
     c = Crawling()
     term = input()
     data = c.search_article(term)
-
-    # print(data[0]["url"])
-    # print(data)
-    print(c.get_article(data[0]["url"]))
-    # print(c.read_webpage('https://www.foxnews.com/us/illinois-interstate-crash-involving-72-vehicles-leaves-six-dead-more-30-injured-horrific'))
