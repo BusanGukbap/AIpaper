@@ -98,16 +98,7 @@ def summary():
             db_access.save_article(requests)
             db_article = requests
         
-    return jsonify({'summary' : db_article['article']['summary']})
-
-@app.route('/api/difficulty', methods=['POST'])
-def difficulty():
-    difficulty = request.get_json()['difficulty']
-    if difficulty == 'easy':
-        summary = gpt.lower_difficulty()
-    elif difficulty == 'hard':
-        summary = gpt.raise_difficulty()
-    return jsonify({'result' : summary['choices'][0]['message']['content']})
+    return jsonify({'summary' : db_article['article']['summary'], 'difficulty' : db_article['article']['difficulty']})
 
 @app.route('/api/translation', methods=['POST'])
 def translation():
