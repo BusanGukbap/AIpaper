@@ -89,8 +89,14 @@ class Gpt:
         return self.middiff
 
     def all_response(self):
-      self.response = {'summary':self.getsummary(), 'low': self.low_difficulty(), 'high':self.high_difficulty(), 'mid':self.middle_difficulty()}
-      return self.response
+        summary = self.getsummary()['choices'][0]['message']['content']
+        difficulty = {
+            'easy': self.low_difficulty()['choices'][0]['message']['content'],
+            'hard': self.high_difficulty()['choices'][0]['message']['content'],
+            'normal': self.middle_difficulty()['choices'][0]['message']['content']
+        }
+        self.response = {'summary':summary, 'difficulty': difficulty}
+        return self.response
 
 
 

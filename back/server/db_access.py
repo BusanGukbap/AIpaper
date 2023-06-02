@@ -52,7 +52,7 @@ class DatabaseAccess:
             return None
 
     def save_search_history(self, uid, article: dict):
-        # article = {'title':str, 'url':str}
+        # article = {'headline':str, 'url':str}
         # 검색 기록 저장
         doc = self.search_history_ref.document(uid).get()
         if doc.exists:
@@ -69,7 +69,7 @@ class DatabaseAccess:
             }
             self.search_history_ref.document(uid).set(data)
 
-    def search_news(self, url):
+    def get_article_by_url(self, url):
         # url을 통해 기사 검색
         query = self.news_ref.where('articles', 'array_contains', {'url': url}).limit(1).stream()
 
@@ -79,9 +79,9 @@ class DatabaseAccess:
         return None
 
     def save_news(self, news: dict):
-        # news = {'title':str, 'url':str, 'article':dict}
+        # news = {'headline':str, 'url':str, 'publishedAt':str, 'soruce':str, 'article':dict}
         # article = {'origin':str, 'summary':str, 'difficulty':dict}
-        # difficulty = {'low':str, 'mid':str, 'high':str}
+        # difficulty = {'easy':str, 'normal':str, 'hard':str}
         # 기사 저장
         doc = self.search_news(news['url'])
         if doc is not None:

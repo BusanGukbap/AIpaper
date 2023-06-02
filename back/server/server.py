@@ -64,16 +64,41 @@ def sign_in():
 def article():
     keyword = request.args.get('keyword')
     articles = crawling.search_article(keyword)
-    # articles = [{'headline':str, 'url':str}, ...]
+    # articles = [{'headline':str, 'url':str, 'publishedAt':str, 'source':str}, ...]
     return jsonify({'articles': articles})
 
-@app.route('/api/summary', methods=['GET'])
+@app.route('/api/summary', methods=['POST'])
 def summary():
-    url = request.args.get('url')
-    article = crawling.get_article(url)
-    gpt.setmessage(article)
-    summary = gpt.getresponse()
-    return jsonify({'summary' : summary['choices'][0]['message']['content']})
+    if request.method == 'POST':
+        # data = {
+        #     "headline" : article["title"],
+        #     "url" : article["url"],
+        #     "publishedAt" : article["publishedAt"],
+        #     "source" : article["source"]["name"]
+        # }
+        
+        # db에서 url이 있는지 확인 후 있으면 db에서 가져오고 없으면
+        # gpt로 요청 후 db에 저장 그 이후 반환
+        # db에 data 유무는 if 분기로 함수 분리해서 처리
+        requests = json.loads(request.data)
+        url = requests['url']
+
+        db_article = db_access.get_article_by_url(url)
+
+        if db_article is None:
+            # news = {'headline':str, 'url':str, 'publishedAt':str, 'soruce':str, 'article':dict}
+            # article = {'origin':str, 'summary':str, 'difficulty':dict}
+            # difficulty = {'easy':str, 'normal':str, 'hard':str}
+            # response = {'summary':summary, 'difficulty': difficulty}
+            origin = crawling.get_article(url)['sections']
+            gpt.setmessage(origin)
+            response = gpt.all_response()
+            response['origin'] = origin
+            requests['article'] = response
+            db_access.save_article(requests)
+            db_article = requests
+        
+    return jsonify({'summary' : db_article['article']['summary']})
 
 @app.route('/api/difficulty', methods=['POST'])
 def difficulty():
