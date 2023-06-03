@@ -83,7 +83,7 @@ class DatabaseAccess:
         # article = {'origin':str, 'summary':str, 'difficulty':dict}
         # difficulty = {'easy':str, 'normal':str, 'hard':str}
         # 기사 저장
-        doc = self.search_news(news['url'])
+        doc = self.get_article_by_url(news['url'])
         if doc is not None:
             articles = doc.get('articles', [])
             articles.append(news['article'])

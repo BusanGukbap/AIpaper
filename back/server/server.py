@@ -77,25 +77,26 @@ def summary():
         #     "source" : article["source"]["name"]
         # }
         
-        # db에서 url이 있는지 확인 후 있으면 db에서 가져오고 없으면
-        # gpt로 요청 후 db에 저장 그 이후 반환
-        # db에 data 유무는 if 분기로 함수 분리해서 처리
         requests = json.loads(request.data)
         url = requests['url']
 
         db_article = db_access.get_article_by_url(url)
-
+        print(db_article)
         if db_article is None:
             # news = {'headline':str, 'url':str, 'publishedAt':str, 'soruce':str, 'article':dict}
             # article = {'origin':str, 'summary':str, 'difficulty':dict}
             # difficulty = {'easy':str, 'normal':str, 'hard':str}
             # response = {'summary':summary, 'difficulty': difficulty}
-            origin = crawling.get_article(url)['sections']
-            gpt.setmessage(origin)
+            article = crawling.get_article(url)
+            gpt.setmessage(article)
             response = gpt.all_response()
-            response['origin'] = origin
-            requests['article'] = response
-            db_access.save_article(requests)
+            origin = article['sections']
+            requests['article'] = {
+                'origin': origin,
+                'summary': response['summary'],
+                'difficulty': response['difficulty']
+            }
+            db_access.save_news(requests)
             db_article = requests
         
     return jsonify({'summary' : db_article['article']['summary'], 'difficulty' : db_article['article']['difficulty']})
