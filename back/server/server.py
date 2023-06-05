@@ -13,6 +13,7 @@ from flask_cors import CORS
 from flask import Flask, jsonify, request, session
 
 app = Flask(__name__)
+app.secret_key = tokens.app_key
 CORS(app)
 
 crawling = Crawling()

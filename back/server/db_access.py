@@ -90,3 +90,11 @@ class DatabaseAccess:
             self.news_ref.document(doc['uid']).update({
                 'articles': articles
             })
+
+    def get_search_history(self):
+        # TODO
+        pass
+
+    def save_search_history(self):
+        # TODO
+        pass
