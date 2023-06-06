@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
-import Nav from 'react-bootstrap/Nav';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Button, Row, Col, Nav, Container, Spinner } from 'react-bootstrap';
 
 function Home() {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
-  //const [articles, setArticles] = useState([]);
+  const [isSpinner, setIsSpinner] = useState(false);
   
   const goToHome = () => {
     navigate("/");
@@ -24,12 +20,10 @@ function Home() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(inputValue);
+    setIsSpinner(true);
     const response = await fetch(`http://localhost:5010/api/article?keyword=${inputValue}`);
     const data = await response.json();
-
-    //setArticles(data.articles);
-    console.log(data.articles);
-    //goToTitle();
+    setIsSpinner(false);
     navigate("/Title", {state : {data : data}});
     setInputValue('');
   };
@@ -48,7 +42,9 @@ function Home() {
           </h1>
             <form onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
               <input type="text" style={{ width: '400px', height: '50px', fontSize: '20px',marginRight: '15px',marginBottom: '5px'}} onChange={handleInputChange} value = {inputValue}/>
-              <Button type="submit" style={{ width: '150px', height: '50px', fontSize: '20px', marginBottom: '5px' }}>Search</Button>
+              {isSpinner?
+               <Spinner variant="primary" animation="border" style={{  width: '35px', height: '35px'}} /> :
+               <Button type="submit" style={{ width: '150px', height: '50px', fontSize: '20px', marginBottom: '5px' }}>Search</Button>}
             </form>
           </Col>
         </Row>
