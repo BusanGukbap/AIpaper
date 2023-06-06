@@ -43,7 +43,7 @@ class DatabaseAccess:
 
         return None
 
-    def get_search_history(self, uid):
+    def get_search_history(self, uid: str):
         # 검색 기록 가져오기
         doc = self.search_history_ref.document(uid).get()
         if doc.exists:
@@ -71,7 +71,7 @@ class DatabaseAccess:
 
     def get_article_by_url(self, url):
         # url을 통해 기사 검색
-        query = self.news_ref.where('articles', 'array_contains', {'url': url}).limit(1).stream()
+        query = self.news_ref.where('url', '==', url).limit(1).stream()
 
         for doc in query:
             return doc.to_dict()
@@ -84,17 +84,6 @@ class DatabaseAccess:
         # difficulty = {'easy':str, 'normal':str, 'hard':str}
         # 기사 저장
         doc = self.get_article_by_url(news['url'])
-        if doc is not None:
-            articles = doc.get('articles', [])
-            articles.append(news['article'])
-            self.news_ref.document(doc['uid']).update({
-                'articles': articles
-            })
-
-    def get_search_history(self):
-        # TODO
-        pass
-
-    def save_search_history(self):
-        # TODO
-        pass
+        headline = news['headline']
+        if doc is None:
+            self.news_ref.document(headline).set(news)
