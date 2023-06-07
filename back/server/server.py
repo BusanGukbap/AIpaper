@@ -14,7 +14,7 @@ from flask import Flask, jsonify, request, session, make_response
 
 app = Flask(__name__)
 app.secret_key = tokens.app_key
-CORS(app)
+CORS(app, supports_credentials=True)
 
 crawling = Crawling()
 gpt = Gpt()
@@ -55,9 +55,9 @@ def sign_in():
 
             if user is not None: 
                 # 로그인 성공한 경우 세션 및 쿠키 설정
-                session['user_id'] = user['uid']  # 세션에 사용자 정보 저장
+                session['session_id'] = user['uid']  # 세션에 사용자 정보 저장
                 resp = jsonify({'success': True, 'uid': user['uid'], 'message': '로그인에 성공했습니다.'})
-                resp.set_cookie('session_id', session['user_id'])  # 클라이언트에 쿠키 설정
+                resp.set_cookie('session_id', session['session_id'], path='/api')  # 클라이언트에 쿠키 설정
                 return resp
             else: 
                 return jsonify({'success': False, 'message': '아이디 또는 비밀번호가 틀렸습니다.'}) 
@@ -74,6 +74,7 @@ def article():
 
 @app.route('/api/summary', methods=['POST', 'GET'])
 def summary():
+    session_id = request.cookies.get('session_id')
     if request.method == 'POST':
         # data = {
         #     "headline" : article["title"],
@@ -86,7 +87,7 @@ def summary():
         url = requests['url']
 
         db_article = db_access.get_article_by_url(url)
-        print(db_article)
+
         if db_article is None:
             # news = {'headline':str, 'url':str, 'publishedAt':str, 'soruce':str, 'article':dict}
             # article = {'origin':str, 'summary':str, 'difficulty':dict}
@@ -108,6 +109,13 @@ def summary():
         url = request.args.get('url')
         db_article = db_access.get_article_by_url(url)
         
+    if session_id:
+        data = {
+            'url': url,
+            'headline': db_article['headline']
+        }
+        db_access.save_search_history(session_id, data)
+
     return jsonify({'summary' : db_article['article']['summary'], 'difficulty' : db_article['article']['difficulty']})
 
 
@@ -122,7 +130,13 @@ def history():
     if request.method == 'POST':
         requests = request.get_json()
         uid = requests['uid']
-        user_history = db_access.get_search_history(uid)
-        return jsonify(user_history)
+
+        session_id = request.cookies.get('session_id')
+        if session['session_id'] == session_id:
+            user_history = db_access.get_search_history(uid)
+            return jsonify({'success': True, 'history': user_history})
+
+        else:
+            return jsonify({'success': False, 'message': '로그인이 필요합니다.'})
 
 app.run(host="0.0.0.0", port=5010, debug=True)
