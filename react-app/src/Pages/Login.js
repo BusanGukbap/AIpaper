@@ -24,7 +24,7 @@ function LoginPage({ /* onSignUp, onSignIn */ }) {
       navigate("/");
   }
   const goToJoin = () => { 
-    navigate("/Join");
+    navigate("/join");
   }
 
   // 로그인
