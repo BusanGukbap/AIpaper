@@ -6,25 +6,31 @@ function Home() {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
   const [isSpinner, setIsSpinner] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //const [articles, setArticles] = useState([]);
   
   const goToHome = () => {
     navigate("/");
   }
-  const goToLogin = () => { 
-    navigate("/Login");
+  const goToLogin = () => {
+    navigate("/login");
   }
   const goToTitle = () => { 
-    navigate("/Title");
+    navigate("/title");
   }
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(inputValue);
     setIsSpinner(true);
     const response = await fetch(`http://localhost:5010/api/article?keyword=${inputValue}`);
     const data = await response.json();
+
     setIsSpinner(false);
-    navigate("/Title", {state : {data : data}});
+    //setArticles(data.articles);
+    console.log(data.articles);
+    //goToTitle();
+    navigate("/title", {state : {data : data}});
     setInputValue('');
   };
 
@@ -52,7 +58,11 @@ function Home() {
           <Col xs={12}>
             <Nav defaultActiveKey="/" className="justify-content-center">
               <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link onClick={goToLogin}>Login</Nav.Link>
+              { document.cookie.length ? (
+                <Nav.Link >LogOut</Nav.Link>
+              ) : (
+                <Nav.Link onClick={goToLogin}>Login</Nav.Link>
+              )}
               <Nav.Link eventKey="link-2" disabled>UserInfo</Nav.Link>
               <Nav.Link eventKey="disabled" disabled>History</Nav.Link>
             </Nav>

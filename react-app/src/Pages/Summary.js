@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
-import { Button, ButtonGroup, Card, Toast, CloseButton, Alert } from 'react-bootstrap';
+import { Button, ButtonGroup, Card, Toast, CloseButton, Alert, Spinner } from 'react-bootstrap';
 
 function SummaryPage({}) {
   const navigate = useNavigate();
   const location = useLocation();
   const cardRef = useRef(null)
 
+  const [isSpinner, setIsSpinner] = useState(false);
   const [summary, setSummary] = useState('');
   const [easy, setEasy] = useState('');
   const [normal, setNormal] = useState('');
@@ -29,6 +30,25 @@ function SummaryPage({}) {
 
   const [tooltipStyle, setTooltipStyle] = useState({});
   const [translatedText, setTranslatedText] = useState('');
+  const [inputValue, setInputValue] = useState('');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(inputValue);
+    const response = await fetch(`http://localhost:5010/api/article?keyword=${inputValue}`);
+    const data = await response.json();
+
+    setIsSpinner(false);
+    //setArticles(data.articles);
+    console.log(data.articles);
+    //goToTitle();
+    navigate("/title", {state : {data : data}});
+    setInputValue('');
+  };
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
 
   const handledifficulty = async (difficulty) => {
     switch(difficulty){
@@ -84,6 +104,12 @@ function SummaryPage({}) {
     <div>
       <Card border="dark" ref={cardRef}>
       <Button type = "submit" onClick={goToHome} variant="light">Home</Button>
+      <form onSubmit={handleSubmit}  style = {{ display : 'flex', alignItems: 'center'}}>          
+        <input type="text" style={{ width: '400px', height: '50px', fontSize: '20px',marginRight: '15px',marginBottom: '5px'}} onChange={handleInputChange} value = {inputValue}/>
+        {isSpinner?
+          <Spinner variant="primary" animation="border" style={{  width: '35px', height: '35px'}} /> :
+          <Button type="submit" style={{ width: '150px', height: '50px', fontSize: '20px', marginBottom: '5px' }}>Search</Button>}
+      </form>
       <Card.Body>
       {text ? (
           <div>
