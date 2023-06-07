@@ -1,8 +1,15 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 //import Button from '../components/Button';
 import { Button } from 'react-bootstrap';
 import Nav from 'react-bootstrap/Nav';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Table from 'react-bootstrap/Table';
+import Card from 'react-bootstrap/Card';
+import Toast from 'react-bootstrap/Toast';
+import Container from 'react-bootstrap/Container';
+import CloseButton from 'react-bootstrap/CloseButton';
 
 /**
  * 회원가입 페이지
@@ -34,26 +41,43 @@ function LoginPage({ /* onSignUp, onSignIn */ }) {
 
       if (result.success) {
         // 로그인 성공
+        document.cookie = `session_id=${result.uid}`;
         navigate("/");
-      } else {
+      }
+      else {
         // 로그인 실패
         alert(result.message);
       }
     };
 
   return (
-    <div>
-        <Button type = "submit" onClick={goToHome} variant="light">Home</Button>
-        <Nav.Link onClick={goToJoin}>Create Account</Nav.Link>
-        <h1> Sign In </h1>
-        <form onSubmit={(event) => {
-            event.preventDefault();
-            handleSignIn(event.target.id.value, event.target.pw.value);
-        }}>
-            <input type="text" name="id" placeholder="ID" />
-            <input type="password" name="pw" placeholder="PW" />
-            <button type="submit">Sign In</button>
-        </form>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Container>
+        <Row>
+          <Col xs={12}>
+            <h1 style={{ fontSize: 100, textAlign: 'center', marginBottom: '40px' }}>
+              <Link style={{ color: 'black', textDecoration: 'none' }} to="/">AIpaper</Link>
+            </h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} style={{ textAlign: 'center' }}>
+            <h1>Sign In</h1>
+            <form onSubmit={(event) => {
+              event.preventDefault();
+              handleSignIn(event.target.id.value, event.target.pw.value);
+            }}>
+              <input type="text" name="id" placeholder="ID" style={{ width: '400px', height: '50px', fontSize: '20px', marginBottom: '15px' }} />
+              <br />
+              <input type="password" name="pw" placeholder="PW" style={{ width: '400px', height: '50px', fontSize: '20px', marginBottom: '15px' }} />
+              <br />
+              <Button type="submit" style={{ width: '150px', height: '50px', fontSize: '20px', marginBottom: '15px' }}>Sign In</Button>
+            </form>
+            <Button type="submit" onClick={goToHome} variant="light" style={{ marginRight: '15px' }}>Home</Button>
+            <Button type="submit" onClick={goToJoin} variant="light">Create Account</Button>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }

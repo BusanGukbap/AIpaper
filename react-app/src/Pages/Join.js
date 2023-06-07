@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Nav from 'react-bootstrap/Nav';
@@ -30,21 +30,51 @@ function JoinPage({}) {
         });
         const result = await response.json();
         console.log(result);
+
+        if (result.success) {
+            // 회원가입 성공
+            navigate("/Login");
+        } 
+        else {
+            // 회원가입 실패
+            alert(result.message);
+        }
     };
 
     return(
-        <div>
-            <h1> Sign Up </h1>
-        <Button type = "submit" onClick={goToHome} variant="light">Home</Button>
-            <form onSubmit={(event) => {
-                event.preventDefault();
-                handleSignUp(event.target.id.value, event.target.pw.value);
-            }}>
-                <input type="text" name="id" placeholder="ID" />
-                <input type="password" name="pw" placeholder="PW" />
-                <Button type="submit">Sign Up</Button>
-            </form>
-        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Container>
+          <Row>
+            <Col xs={12}>
+              <h1 style={{ fontSize: 100, textAlign: 'center', marginBottom: '40px' }}>
+                <Link style={{ color: 'black', textDecoration: 'none' }} to="/">AIpaper</Link>
+              </h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} style={{ textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ marginBottom: '0px' }}>
+                <h1>Sign Up</h1>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '15px' }}>
+                <form onSubmit={(event) => {
+                  event.preventDefault();
+                  handleSignUp(event.target.id.value, event.target.pw.value);
+                }}>
+                  <input type="text" name="id" placeholder="ID" style={{ width: '400px', height: '50px', fontSize: '20px', marginBottom: '15px' }} />
+                  <br />
+                  <input type="password" name="pw" placeholder="PW" style={{ width: '400px', height: '50px', fontSize: '20px', marginBottom: '15px' }} />
+                  <br />
+                  <Button type="submit" style={{ width: '150px', height: '50px', fontSize: '20px' }}>Sign Up</Button>
+                </form>
+              </div>
+              <div>
+                <Button type="submit" onClick={goToHome} variant="light" style={{ marginRight: '15px' }}>Home</Button>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
 }
 
