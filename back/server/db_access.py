@@ -1,5 +1,6 @@
 import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app, auth
+from google.cloud.firestore_v1.base_query import FieldFilter
 
 class DatabaseAccess:
 
@@ -27,7 +28,7 @@ class DatabaseAccess:
 
     def get_user_by_id(self, id):
         # 중복 아이디 검사를 위한 회원정보 가져오기
-        query = self.user_ref.where('id', '==', id).limit(1).stream()
+        query = self.user_ref.where(filter=FieldFilter('id', '==', id)).limit(1).stream()
 
         for user in query:
             return user.to_dict()
@@ -37,13 +38,14 @@ class DatabaseAccess:
     def get_user_for_check(self, id, pw):
         # 로그인을 위한 회원정보 가져오기
         user = self.get_user_by_id(id)
+        print('debug')
         if user is not None:
             if user['pw'] == pw:
                 return user
 
         return None
 
-    def get_search_history(self, uid):
+    def get_search_history(self, uid: str):
         # 검색 기록 가져오기
         doc = self.search_history_ref.document(uid).get()
         if doc.exists:
@@ -51,12 +53,24 @@ class DatabaseAccess:
         else:
             return None
 
+    def check_search_history(self, uid: str, url: str):
+        # 검색 기록 중복 확인
+        doc = self.search_history_ref.document(uid).get()
+        articles = doc.get('articles')
+        for article in articles:
+            if article['url'] == url:
+                return True
+
+        return False
+
     def save_search_history(self, uid, article: dict):
         # article = {'headline':str, 'url':str}
         # 검색 기록 저장
         doc = self.search_history_ref.document(uid).get()
         if doc.exists:
-            articles = doc.get('articles', [])
+            if self.check_search_history(uid, article['url']):
+                return
+            articles = doc.get('articles')
             articles.append(article)
             self.search_history_ref.document(uid).update({
                 'articles': articles
@@ -71,7 +85,7 @@ class DatabaseAccess:
 
     def get_article_by_url(self, url):
         # url을 통해 기사 검색
-        query = self.news_ref.where('articles', 'array_contains', {'url': url}).limit(1).stream()
+        query = self.news_ref.where(filter=FieldFilter('url', '==', url)).limit(1).stream()
 
         for doc in query:
             return doc.to_dict()
@@ -84,9 +98,6 @@ class DatabaseAccess:
         # difficulty = {'easy':str, 'normal':str, 'hard':str}
         # 기사 저장
         doc = self.get_article_by_url(news['url'])
-        if doc is not None:
-            articles = doc.get('articles', [])
-            articles.append(news['article'])
-            self.news_ref.document(doc['uid']).update({
-                'articles': articles
-            })
+        headline = news['headline']
+        if doc is None:
+            self.news_ref.document(headline).set(news)
