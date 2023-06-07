@@ -38,7 +38,6 @@ class DatabaseAccess:
     def get_user_for_check(self, id, pw):
         # 로그인을 위한 회원정보 가져오기
         user = self.get_user_by_id(id)
-        print('debug')
         if user is not None:
             if user['pw'] == pw:
                 return user

@@ -34,6 +34,7 @@ function LoginPage({ /* onSignUp, onSignIn */ }) {
 
       if (result.success) {
         // 로그인 성공
+        document.cookie = `session_id=${result.uid}`;
         navigate("/");
       } else {
         // 로그인 실패
