@@ -65,6 +65,16 @@ def sign_in():
             return jsonify({'success': False, 'message': str(e)}) 
     return jsonify({'success': False, 'message': '잘못된 접근입니다.'})
 
+@app.route('/api/sign_out', methods=['GET'])
+def sign_out():
+    session_id = request.cookies.get('session_id')
+    if session_id is not None:
+        session.pop('session_id', None)
+        resp = jsonify({'success': True, 'message': '로그아웃에 성공했습니다.'})
+        resp.set_cookie('session_id', '', expires=0)
+        return resp
+    return jsonify({'success': False, 'message': '잘못된 접근입니다.'})
+
 @app.route('/api/article', methods=['GET'])
 def article():
     keyword = request.args.get('keyword')
