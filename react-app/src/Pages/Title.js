@@ -46,6 +46,7 @@ function TitlePage({}) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(article),
+      credentials: 'include',
     });
     
     const result = await response.json();
