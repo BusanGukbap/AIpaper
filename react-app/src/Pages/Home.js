@@ -15,8 +15,24 @@ function Home() {
   const goToLogin = () => {
     navigate("/login");
   }
-  const goToHistory = () => { 
-    navigate("/history");
+  const goToHistory = async(event) => {
+    const response = await fetch(`http://localhost:5010/api/history`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    
+    const result = await response.json();
+    console.log(result);
+    if (result.success){
+      navigate("/history", {state : {a : result}})
+    }
+    else{
+      alert(result.message);
+    }
+    
   }
   
   const handleSubmit = async (event) => {
