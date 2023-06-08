@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Button, Row, Col, Table, ButtonGroup, Card, Placeholder, Alert, Spinner } from 'react-bootstrap';
+import { Button, Row, Col, Table, ButtonGroup, Card, Placeholder, Alert, Spinner, Pagination } from 'react-bootstrap';
 
 function TitlePage({}) {
   const navigate = useNavigate();
@@ -9,7 +9,12 @@ function TitlePage({}) {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const articlesPerPage = 10;
+  const indexOfLastArticle = currentPage * articlesPerPage;
+  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
+  const currentArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
+  
   const goToHome = () => {
     navigate("/");
   }
@@ -19,6 +24,9 @@ function TitlePage({}) {
     setArticles(data.articles);
   }, []);
 
+  const handlePageClick = (event) => {
+    setCurrentPage(Number(event.target.text));
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(inputValue);
@@ -77,9 +85,10 @@ function TitlePage({}) {
                     <Placeholder style={{ width: '100%', height: '50px' }}/>
                   </Placeholder>
                   <Placeholder as={Card.Text} animation="wave">
-                    <Placeholder style={{ width: '100%', height: '500px' }}/>
+                    <Placeholder style={{ width: '100%', height: '100px' }}/>
                   </Placeholder>
                   <ButtonGroup className="d-flex">
+                    <Placeholder.Button variant="secondary"/>
                     <Placeholder.Button variant="info"/>
                     <Placeholder.Button variant="dark"/>
                     <Placeholder.Button variant="danger"/>
@@ -88,6 +97,7 @@ function TitlePage({}) {
               </Card>
             </div>
             ) : (
+              <div>
               <Table striped border hover>
                 <thead>
                   <tr>
@@ -96,14 +106,22 @@ function TitlePage({}) {
                   </tr>
                 </thead>
                 <tbody>
-                  {articles.map((article, index) => (
+                 {currentArticles.map((article, index) => (
                     <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td onClick={() => handleHeadlineClick(article)}>{article.headline}</td>
-                    </tr>
+                      <td>{index + 1}</td>
+                      <td onClick={() => handleHeadlineClick(article)}>{article.headline}</td>
+                   </tr>
                   ))}
                 </tbody>
               </Table>
+              <Pagination>
+              {[...Array(Math.ceil(articles.length / articlesPerPage)).keys()].map((page) => (
+                <Pagination.Item key={page + 1} active={page + 1 === currentPage} onClick={handlePageClick}>
+                  {page + 1}
+                </Pagination.Item>
+              ))}
+            </Pagination>
+            </div>
             )}
           </Col>
         </Row>
