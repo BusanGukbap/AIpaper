@@ -15,8 +15,8 @@ function Home() {
   const goToLogin = () => {
     navigate("/login");
   }
-  const goToTitle = () => { 
-    navigate("/title");
+  const goToHistory = () => { 
+    navigate("/history");
   }
   
   const handleSubmit = async (event) => {
@@ -64,7 +64,7 @@ function Home() {
                 <Nav.Link onClick={goToLogin}>Login</Nav.Link>
               )}
               <Nav.Link eventKey="link-2" disabled>UserInfo</Nav.Link>
-              <Nav.Link eventKey="disabled" disabled>History</Nav.Link>
+              <Nav.Link onClick={goToHistory}>History</Nav.Link>
             </Nav>
           </Col>
         </Row>

@@ -35,6 +35,7 @@ function SummaryPage({}) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(inputValue);
+    setIsSpinner(true);
     const response = await fetch(`http://localhost:5010/api/article?keyword=${inputValue}`);
     const data = await response.json();
 
