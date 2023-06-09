@@ -21,7 +21,7 @@ function HistoryPage({}) {
   // 기사 제목 눌렀을 때 요약본 불러온 후 summary로 이동
   const handleHeadlineClick = async (article) => {
     setIsLoading(true);
-
+    
     const response = await fetch(`http://localhost:5010/api/summary?url=${article.url}`, {
       method: 'GET',
     });
@@ -31,7 +31,7 @@ function HistoryPage({}) {
 
     setIsLoading(false);
     console.log(result);
-    navigate("/Summary", {state : {a : result}});
+    navigate("/summary", {state : {a : result}});
   };
 
   return(
