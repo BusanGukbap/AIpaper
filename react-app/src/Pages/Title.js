@@ -51,7 +51,7 @@ function TitlePage({}) {
     
     const result = await response.json();
     setIsLoading(false);
-    navigate("/Summary", {state : {a : result}})
+    navigate("/summary", {state : {a : result}})
     console.log(result);
   };
 
