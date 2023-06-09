@@ -33,7 +33,7 @@ function JoinPage({}) {
 
         if (result.success) {
             // 회원가입 성공
-            navigate("/Login");
+            navigate("/login");
         } 
         else {
             // 회원가입 실패

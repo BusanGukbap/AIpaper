@@ -57,12 +57,22 @@ def sign_in():
                 # 로그인 성공한 경우 세션 및 쿠키 설정
                 session['session_id'] = user['uid']  # 세션에 사용자 정보 저장
                 resp = jsonify({'success': True, 'uid': user['uid'], 'message': '로그인에 성공했습니다.'})
-                resp.set_cookie('session_id', session['session_id'], path='/api')  # 클라이언트에 쿠키 설정
+                resp.set_cookie('session_id', user['uid'], path='/api')  # 클라이언트에 쿠키 설정
                 return resp
             else: 
                 return jsonify({'success': False, 'message': '아이디 또는 비밀번호가 틀렸습니다.'}) 
         except Exception as e: 
             return jsonify({'success': False, 'message': str(e)}) 
+    return jsonify({'success': False, 'message': '잘못된 접근입니다.'})
+
+@app.route('/api/sign_out', methods=['GET'])
+def sign_out():
+    session_id = request.cookies.get('session_id')
+    if session_id is not None:
+        session.pop('session_id', None)
+        resp = jsonify({'success': True, 'message': '로그아웃에 성공했습니다.'})
+        resp.set_cookie('session_id', '', expires=0)
+        return resp
     return jsonify({'success': False, 'message': '잘못된 접근입니다.'})
 
 @app.route('/api/article', methods=['GET'])
