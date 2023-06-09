@@ -127,13 +127,10 @@ def translation():
 
 @app.route('/api/history', methods=['POST'])
 def history():
+    session_id = request.cookies.get('session_id')
     if request.method == 'POST':
-        requests = request.get_json()
-        uid = requests['uid']
-
-        session_id = request.cookies.get('session_id')
-        if session['session_id'] == session_id:
-            user_history = db_access.get_search_history(uid)
+        if session_id:
+            user_history = db_access.get_search_history(session_id)
             return jsonify({'success': True, 'history': user_history})
 
         else:
