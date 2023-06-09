@@ -14,8 +14,8 @@ function HistoryPage({}) {
   }
   
   useEffect(() => {
-    const data = location.state.data;
-    setArticles(data.articles);
+    const data = location.state.a;
+    setArticles(data.history.articles);
   }, []);
 
   // 기사 제목 눌렀을 때 요약본 불러온 후 summary로 이동
@@ -28,17 +28,19 @@ function HistoryPage({}) {
       },
       body: JSON.stringify(article),
     });
+
     console.log(1);
     const result = await response.json();
+
     setIsLoading(false);
     console.log(result);
-    navigate("/Summary", {state : {a : result}})
+    navigate("/Summary", {state : {a : result}});
   };
 
   return(
     <div>
       <Row>
-          <Col md={{ span: 6, offset: 3 }}>
+        <Col md={{ span: 6, offset: 3 }}>
           <Button type = "submit" onClick={goToHome} variant="light">Home</Button>
           {isLoading ? (
             <div>
