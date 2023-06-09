@@ -141,6 +141,8 @@ def history():
     if request.method == 'POST':
         if session_id:
             user_history = db_access.get_search_history(session_id)
+            if user_history is None:
+                return jsonify({'success': False, 'message': '검색 기록이 없습니다.'})
             return jsonify({'success': True, 'history': user_history})
 
         else:
