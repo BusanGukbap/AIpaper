@@ -75,16 +75,13 @@ function TitlePage({}) {
           </form> 
           {isLoading ? (
             <div>
-              <Alert variant="info" >
-                내용을 불러오는 데 약 30초 정도 걸립니다. 잠시만 기다려 주세요.
-              </Alert>
               <Card border="dark">
                 <Card.Body>
                   <Placeholder as={Card.Header} animation="wave">
-                    <Placeholder style={{ width: '100%', height: '50px' }}/>
+                    <Placeholder style={{ width: '100%', height: '5vh' }}/>
                   </Placeholder>
                   <Placeholder as={Card.Text} animation="wave">
-                    <Placeholder style={{ width: '100%', height: '100px' }}/>
+                    <Placeholder style={ {width: '100%', height: '40vh'}}/>
                   </Placeholder>
                   <ButtonGroup className="d-flex">
                     <Placeholder.Button variant="secondary"/>
@@ -94,6 +91,9 @@ function TitlePage({}) {
                   </ButtonGroup>
                 </Card.Body>
               </Card>
+              <Alert variant="info" >
+                내용을 불러오는 데 약 30초 정도 걸립니다. 잠시만 기다려 주세요.
+              </Alert>
             </div>
             ) : (
               <div>

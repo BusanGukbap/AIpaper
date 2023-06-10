@@ -114,8 +114,8 @@ function SummaryPage({}) {
           <Card.Body>
           {text ? (
             <div>
-              <Card.Header className="text-center">Summary</Card.Header>
-              <Card.Text onMouseUp={handleTranslate}>{text}</Card.Text>
+              <Card.Header className="text-center" style={{height: '5vh'}}>Summary</Card.Header>
+              <Card.Text onMouseUp={handleTranslate} style={{height: '40vh', overflow: 'auto'}}>{text}</Card.Text>
                 {translatedText && (
                   <Toast border style={{
                     ...tooltipStyle,
