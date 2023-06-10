@@ -29,6 +29,7 @@ function TitlePage({}) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(inputValue);
+    setIsSpinner(true);
     const response = await fetch(`http://localhost:5010/api/article?keyword=${inputValue}`);
     const data = await response.json();
     
@@ -52,14 +53,13 @@ function TitlePage({}) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(article),
+      credentials: 'include',
     });
     
     const result = await response.json();
     setIsLoading(false);
-    console.log(result);
-    //setSummary(result.summary);
-    //console.log(summary);
     navigate("/summary", {state : {a : result}})
+    console.log(result);
   };
 
   return(

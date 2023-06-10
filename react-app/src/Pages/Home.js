@@ -15,8 +15,24 @@ function Home() {
   const goToLogin = () => {
     navigate("/login");
   }
-  const goToTitle = () => { 
-    navigate("/title");
+  const goToHistory = async(event) => {
+    const response = await fetch(`http://localhost:5010/api/history`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    
+    const result = await response.json();
+    console.log(result);
+    if (result.success){
+      navigate("/history", {state : {a : result}})
+    }
+    else{
+      alert(result.message);
+    }
+    
   }
   
   const handleSubmit = async (event) => {
@@ -64,7 +80,7 @@ function Home() {
                 <Nav.Link onClick={goToLogin}>Login</Nav.Link>
               )}
               <Nav.Link eventKey="link-2" disabled>UserInfo</Nav.Link>
-              <Nav.Link eventKey="disabled" disabled>History</Nav.Link>
+              <Nav.Link onClick={goToHistory}>History</Nav.Link>
             </Nav>
           </Col>
         </Row>
