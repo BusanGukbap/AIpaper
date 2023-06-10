@@ -16,6 +16,28 @@ function HistoryPage({}) {
   const goToHome = () => {
     navigate("/");
   }
+  const goToHistory = async(event) => {
+    const response = await fetch(`http://localhost:5010/api/history`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    
+    const result = await response.json();
+    console.log(result);
+    if (result.success){
+      navigate("/history", {state : {a : result}})
+    }
+    else{
+      alert(result.message);
+    }
+    
+  }
+  const goToLogin = () => {
+    navigate("/login");
+  }
   
   useEffect(() => {
     const data = location.state.a;
@@ -44,6 +66,19 @@ function HistoryPage({}) {
   return(
     <div>
       <Row>
+        <Col xs={2} md={2} lg={2} style={{ backgroundColor: '#f8f9fa', height: '100vh' }}>
+          <Nav className="flex-column">
+            <Nav.Item>
+              <Nav.Link onClick={goToHome}>AIpaper</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={goToHistory}>History</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={goToLogin}>Sign In</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Col>
         <Col xs={12} md={{ span: 10, offset: 1}} lg={{ span: 8, offset: 2}}>
           <Button type = "submit" onClick={goToHome} variant="light">Home</Button>
           {isLoading ? (
