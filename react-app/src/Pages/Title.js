@@ -78,7 +78,7 @@ function TitlePage({}) {
               <Card border="dark">
                 <Card.Body>
                   <Placeholder as={Card.Header} animation="wave">
-                    <Placeholder style={{ width: '100%', height: '5vh' }}/>
+                    <Placeholder style={{ width: '100%', height: '40px' }}/>
                   </Placeholder>
                   <Placeholder as={Card.Text} animation="wave">
                     <Placeholder style={ {width: '100%', height: '40vh'}}/>
@@ -96,7 +96,8 @@ function TitlePage({}) {
               </Alert>
             </div>
             ) : (
-              <div>
+              <>
+              <div style={{height: '70vh', overflowX: 'auto'}}>
               <Table striped border hover>
                 <colgroup>
                   <col style={{ width: '25px' }} />
@@ -116,6 +117,8 @@ function TitlePage({}) {
                   ))}
                 </tbody>
               </Table>
+              </div>
+              <div>
               <Pagination>
               {[...Array(Math.ceil(articles.length / articlesPerPage)).keys()].map((page) => ( //Array는 javascript에서 제공하는 배열 객체, Array(5)는 길이가 5인 배열을 생성
                 <Pagination.Item key={page + 1} active={page + 1 === currentPage} onClick={handlePageClick}> 
@@ -124,6 +127,7 @@ function TitlePage({}) {
               ))} 
             </Pagination>
             </div>
+            </>
             )}
           </Col>
         </Row>
