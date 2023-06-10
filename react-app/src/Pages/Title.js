@@ -87,29 +87,27 @@ function TitlePage({}) {
   return(
   <div>
     <Row>
-      <Col xs={2} md={2} lg={2} style={{ backgroundColor: '#f8f9fa', height: '100vh' }}>
-        <Nav className="flex-column">
-          <Nav.Item>
-            <Nav.Link onClick={goToHome}>AIpaper</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link onClick={goToHistory}>History</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link onClick={goToLogin}>Sign In</Nav.Link>
-          </Nav.Item>
-        </Nav>
-      </Col>
-      <Col xs={10} md={{ span: 10, offset: 1 }} lg={{ span: 8, offset: 2 }}>
-        <Button type="submit" onClick={goToHome} variant="light">Home</Button>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center' }}>
-          <input type="text" style={{ width: '400px', height: '50px', fontSize: '20px', marginRight: '15px', marginBottom: '5px' }} onChange={handleInputChange} value={inputValue} />
-          {isSpinner ? (
-            <Spinner variant="primary" animation="border" style={{ width: '35px', height: '35px' }} />
-          ) : (
-            <Button type="submit" style={{ width: '150px', height: '50px', fontSize: '20px', marginBottom: '5px' }}>Search</Button>
-          )}
-        </form>
+    <Col xs={12} md={{ span: 10, offset: 1}} lg={{ span: 8, offset: 2}} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <h1 style={{ fontSize: 100, textAlign: 'center', marginBottom: '20px' } }>
+              <Link style ={{color : 'black', textDecoration : 'none'}} to = "/">AIpaper</Link>
+          </h1>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
+        <input type="text" style={{ width: '40vh', height: '5vh', fontSize: '20vh', marginRight: '15px', marginBottom: '5px' }} onChange={handleInputChange} value={inputValue} />
+        {isSpinner ? (
+          <Spinner variant="primary" animation="border" style={{ width: '35vh', height: '35vh' }} />
+        ) : (
+          <Button type="submit" style={{ width: '15vh', height: '5vh', fontSize: '20px', marginBottom: '5px' }}>Search</Button>
+        )}
+      </form>
+            <Nav defaultActiveKey="/" className="justify-content-center">
+              { document.cookie.length ? (
+                <Nav.Link >LogOut</Nav.Link>
+              ) : (
+                <Nav.Link onClick={goToLogin}>Login</Nav.Link>
+              )}
+              <Nav.Link eventKey="link-2" disabled>UserInfo</Nav.Link>
+              <Nav.Link onClick={goToHistory}>History</Nav.Link>
+            </Nav>
         {isLoading ? (
           <div>
             <Card border="dark">
