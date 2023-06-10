@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Button, Row, Col, Table, ButtonGroup, Card, Placeholder, Alert, Spinner, Pagination } from 'react-bootstrap';
+import { Button, Row, Col, Table, ButtonGroup, Card, Placeholder, Alert, Spinner, Pagination, Nav } from 'react-bootstrap';
 
 function HistoryPage({}) {
   const navigate = useNavigate();
