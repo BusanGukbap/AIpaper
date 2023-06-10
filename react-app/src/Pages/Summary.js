@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
-import { Button, ButtonGroup, Card, Toast, CloseButton, Alert, Spinner } from 'react-bootstrap';
+import { Button, ButtonGroup, Card, Toast, CloseButton, Alert, Spinner, Row, Col } from 'react-bootstrap';
 
 function SummaryPage({}) {
   const navigate = useNavigate();
@@ -102,49 +102,51 @@ function SummaryPage({}) {
   };
 
   return(
-    <div>
-      <Card border="dark" ref={cardRef}>
-      <Button type = "submit" onClick={goToHome} variant="light">Home</Button>
-      <form onSubmit={handleSubmit}  style = {{ display : 'flex', alignItems: 'center'}}>          
-        <input type="text" style={{ width: '400px', height: '50px', fontSize: '20px',marginRight: '15px',marginBottom: '5px'}} onChange={handleInputChange} value = {inputValue}/>
-        {isSpinner?
-          <Spinner variant="primary" animation="border" style={{  width: '35px', height: '35px'}} /> :
-          <Button type="submit" style={{ width: '150px', height: '50px', fontSize: '20px', marginBottom: '5px' }}>Search</Button>}
-      </form>
-      <Card.Body>
-      {text ? (
-          <div>
-        <Card.Header className="text-center">Summary</Card.Header>
-        <Card.Text onMouseUp={handleTranslate}>{text}</Card.Text>
-        {translatedText && (
-          <Toast border style={{
-            ...tooltipStyle,
-            width: cardRef.current ? cardRef.current.offsetWidth - (cardRef.current.offsetWidth / 4): 'auto',
-          }}>
-            <Toast.Header closeButton={false}>
-              <strong className="m-auto">Translated Text</strong>
-              <CloseButton onClick={handleTranslatedTextClick}/>
-            </Toast.Header>
-            <Toast.Body className="m-auto">{translatedText}</Toast.Body>
-          </Toast>
-          )}
-          <ButtonGroup className="d-flex">
-          <Button variant="secondary" onClick={() => handledifficulty("origin")}>Origin</Button>
-          <Button variant="info" onClick={() => handledifficulty("easy")}>Easy</Button>
-          <Button variant="dark" onClick={() => handledifficulty("normal")}>Normal</Button>
-          <Button variant="danger" onClick={() => handledifficulty("hard")}>Hard</Button>
-          </ButtonGroup>
-          </div>
-      ):
-      <Alert variant="danger" >
-        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-        <p>
-          The article you selected is not available.
-        </p>
-        </Alert>}
-      </Card.Body>
-      </Card>
-    </div>
+    <Row>
+      <Col xs={12} md={{ span: 10, offset: 1}} lg={{ span: 8, offset: 2}}>
+        <Button type = "submit" onClick={goToHome} variant="light">Home</Button>
+          <form onSubmit={handleSubmit}  style = {{ display : 'flex', alignItems: 'center'}}>          
+            <input type="text" style={{ width: '400px', height: '50px', fontSize: '20px',marginRight: '15px',marginBottom: '5px'}} onChange={handleInputChange} value = {inputValue}/>
+            {isSpinner?
+              <Spinner variant="primary" animation="border" style={{  width: '35px', height: '35px'}} /> :
+              <Button type="submit" style={{ width: '150px', height: '50px', fontSize: '20px', marginBottom: '5px' }}>Search</Button>}
+            </form>
+        <Card border="dark" ref={cardRef}>
+          <Card.Body>
+          {text ? (
+            <div>
+              <Card.Header className="text-center" style={{height: '40px'}}>Summary</Card.Header>
+              <Card.Text onMouseUp={handleTranslate} style={{height: '40vh', overflow: 'auto'}}>{text}</Card.Text>
+                {translatedText && (
+                  <Toast border style={{
+                    ...tooltipStyle,
+                    width: cardRef.current ? cardRef.current.offsetWidth - (cardRef.current.offsetWidth / 4): 'auto',
+                  }}>
+                    <Toast.Header closeButton={false}>
+                      <strong className="m-auto">Translated Text</strong>
+                      <CloseButton onClick={handleTranslatedTextClick}/>
+                    </Toast.Header>
+                    <Toast.Body className="m-auto">{translatedText}</Toast.Body>
+                  </Toast>
+                )}
+              <ButtonGroup className="d-flex">
+                <Button variant="secondary" onClick={() => handledifficulty("origin")}>Origin</Button>
+                <Button variant="info" onClick={() => handledifficulty("easy")}>Easy</Button>
+                <Button variant="dark" onClick={() => handledifficulty("normal")}>Normal</Button>
+                <Button variant="danger" onClick={() => handledifficulty("hard")}>Hard</Button>
+              </ButtonGroup>
+            </div>
+          ) : 
+            <Alert variant="danger" >
+              <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+                <p>
+                  The article you selected is not available.
+                </p>
+            </Alert>}
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
   );
 }
 
