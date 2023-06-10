@@ -102,7 +102,7 @@ function SummaryPage({}) {
 
   return(
     <Row>
-      <Col md={{ span: 6, offset: 3 }}>
+      <Col xs={12} md={{ span: 10, offset: 1}} lg={{ span: 8, offset: 2}}>
         <Button type = "submit" onClick={goToHome} variant="light">Home</Button>
           <form onSubmit={handleSubmit}  style = {{ display : 'flex', alignItems: 'center'}}>          
             <input type="text" style={{ width: '400px', height: '50px', fontSize: '20px',marginRight: '15px',marginBottom: '5px'}} onChange={handleInputChange} value = {inputValue}/>

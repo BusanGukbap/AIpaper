@@ -14,7 +14,6 @@ function TitlePage({}) {
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
   const currentArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
-  
   const goToHome = () => {
     navigate("/");
   }
@@ -66,7 +65,7 @@ function TitlePage({}) {
   return(
     <div>
       <Row>
-          <Col md={{ span: 6, offset: 3 }}>
+          <Col xs={12} md={{ span: 10, offset: 1}} lg={{ span: 8, offset: 2}}>
           <Button type = "submit" onClick={goToHome} variant="light">Home</Button>
           <form onSubmit={handleSubmit}  style = {{ display : 'flex', alignItems: 'center'}}>          
             <input type="text" style={{ width: '400px', height: '50px', fontSize: '20px',marginRight: '15px',marginBottom: '5px'}} onChange={handleInputChange} value = {inputValue}/>
@@ -99,6 +98,9 @@ function TitlePage({}) {
             ) : (
               <div>
               <Table striped border hover>
+                <colgroup>
+                  <col style={{ width: '25px' }} />
+                </colgroup>
                 <thead>
                   <tr>
                     <th>#</th>
@@ -106,20 +108,20 @@ function TitlePage({}) {
                   </tr>
                 </thead>
                 <tbody>
-                 {currentArticles.map((article, index) => (
+                  {currentArticles.map((article, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td onClick={() => handleHeadlineClick(article)}>{article.headline}</td>
-                   </tr>
+                    </tr>
                   ))}
                 </tbody>
               </Table>
               <Pagination>
-              {[...Array(Math.ceil(articles.length / articlesPerPage)).keys()].map((page) => (
-                <Pagination.Item key={page + 1} active={page + 1 === currentPage} onClick={handlePageClick}>
+              {[...Array(Math.ceil(articles.length / articlesPerPage)).keys()].map((page) => ( //Array는 javascript에서 제공하는 배열 객체, Array(5)는 길이가 5인 배열을 생성
+                <Pagination.Item key={page + 1} active={page + 1 === currentPage} onClick={handlePageClick}> 
                   {page + 1}
                 </Pagination.Item>
-              ))}
+              ))} 
             </Pagination>
             </div>
             )}
