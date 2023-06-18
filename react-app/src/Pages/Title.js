@@ -88,11 +88,11 @@ function TitlePage({}) {
   <div>
     <Row>
     <Col xs={12} md={{ span: 10, offset: 1}} lg={{ span: 8, offset: 2}} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h1 style={{ fontSize: 100, textAlign: 'center', marginBottom: '20px' } }>
+            <h1 style={{ fontSize: 63, textAlign: 'center', marginBottom: '20px', marginTop: '20px' } }>
               <Link style ={{color : 'black', textDecoration : 'none'}} to = "/">AIpaper</Link>
           </h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
-        <input type="text" style={{ width: '40vh', height: '5vh', fontSize: '20vh', marginRight: '15px', marginBottom: '5px' }} onChange={handleInputChange} value={inputValue} />
+        <input type="text" style={{ width: '400px', height: '50px', fontSize: '20px',marginRight: '15px',marginBottom: '5px' }} onChange={handleInputChange} value={inputValue} />
         {isSpinner ? (
           <Spinner variant="primary" animation="border" style={{ width: '35vh', height: '35vh' }} />
         ) : (

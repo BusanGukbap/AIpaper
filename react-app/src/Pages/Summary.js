@@ -6,6 +6,7 @@ function SummaryPage({}) {
   const navigate = useNavigate();
   const location = useLocation();
   const cardRef = useRef(null)
+  const [title, setTitle] = useState('Summary');
 
   const [isSpinner, setIsSpinner] = useState(false);
   const [summary, setSummary] = useState('');
@@ -75,17 +76,21 @@ function SummaryPage({}) {
 
   const handledifficulty = async (difficulty) => {
     switch(difficulty){
-      case "origin":
+      case "Summary":
         setText(summary);
+        setTitle('Summary');
         break;
       case "easy":
         setText(easy);
+        setTitle('Easy');
         break;
       case "normal":
         setText(normal);
+        setTitle('Normal');
         break;
       case "hard":
         setText(hard);
+        setTitle('Hard');
         break;
     }
   };
@@ -126,11 +131,11 @@ function SummaryPage({}) {
   return(
   <Row>
     <Col xs={12} md={{ span: 10, offset: 1}} lg={{ span: 8, offset: 2}} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h1 style={{ fontSize: 100, textAlign: 'center', marginBottom: '20px' } }>
+            <h1 style={{ fontSize: 63, textAlign: 'center', marginBottom: '20px', marginTop: '20px' } }>
               <Link style ={{color : 'black', textDecoration : 'none'}} to = "/">AIpaper</Link>
           </h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
-        <input type="text" style={{ width: '40vh', height: '5vh', fontSize: '20vh', marginRight: '15px', marginBottom: '5px' }} onChange={handleInputChange} value={inputValue} />
+        <input type="text" style={{ width: '400px', height: '50px', fontSize: '20px',marginRight: '15px',marginBottom: '5px' }} onChange={handleInputChange} value={inputValue} />
         {isSpinner ? (
           <Spinner variant="primary" animation="border" style={{ width: '35vh', height: '35vh' }} />
         ) : (
@@ -150,7 +155,7 @@ function SummaryPage({}) {
         <Card.Body>
           {text ? (
             <div>
-              <Card.Header className="text-center" style={{ height: '40px' }}>Summary</Card.Header>
+              <Card.Header className="text-center" style={{ height: '40px' }}>{title}</Card.Header>
               <Card.Text onMouseUp={handleTranslate} style={{ height: '40vh', overflow: 'auto' }}>{text}</Card.Text>
               {translatedText && (
                 <Toast border style={{
@@ -165,7 +170,7 @@ function SummaryPage({}) {
                 </Toast>
               )}
               <ButtonGroup className="d-flex">
-                <Button variant="secondary" onClick={() => handledifficulty("origin")}>Origin</Button>
+                <Button variant="secondary" onClick={() => handledifficulty("Summary")}>Summary</Button>
                 <Button variant="info" onClick={() => handledifficulty("easy")}>Easy</Button>
                 <Button variant="dark" onClick={() => handledifficulty("normal")}>Normal</Button>
                 <Button variant="danger" onClick={() => handledifficulty("hard")}>Hard</Button>

@@ -63,7 +63,7 @@ function HistoryPage({}) {
     <div>
       <Row>
       <Col xs={12} md={{ span: 10, offset: 1}} lg={{ span: 8, offset: 2}} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h1 style={{ fontSize: 100, textAlign: 'center', marginBottom: '20px' } }>
+            <h1 style={{ fontSize: 63, textAlign: 'center', marginBottom: '20px', marginTop: '20px' } }>
               <Link style ={{color : 'black', textDecoration : 'none'}} to = "/">AIpaper</Link>
           </h1>
             <Nav defaultActiveKey="/" className="justify-content-center">
