@@ -1,12 +1,9 @@
-import os
-import sys
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import tokens
 
 import json
-from crawling.Crawling import *
-from summary.Gpt import *
-from translate.translate import *
+from utils.Crawling import *
+from utils.Gpt import *
+from utils.Translate import *
 from db_access import DatabaseAccess
 
 from flask_cors import CORS
@@ -18,7 +15,7 @@ CORS(app, supports_credentials=True)
 
 crawling = Crawling()
 gpt = Gpt()
-translator_ = translator('../credentials.json')
+translator_ = translator('./credentials.json')
 db_access = DatabaseAccess(tokens.firebase_key)
 
 
