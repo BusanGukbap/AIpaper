@@ -27,7 +27,7 @@
 ### 4-1. 로컬 실행
 1. 백엔드 서버 실행
   * `~/back/`에서 `pip install -r requirements.txt`로 필수 패키지 설치
-  * `tokens.py`를 추가하여 `gpt-key`, `news-key`, `firebase_key`, `app_key` 세팅
+  * `~/back/`폴더에 `tokens.py`를 추가하여 `gpt-key`, `news-key`, `firebase_key`, `app_key` 세팅
   * `~/back/server/`에서 `python server.py`로 실행
 
 2. 프론트엔드 리액트 앱 실행
