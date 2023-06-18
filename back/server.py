@@ -4,7 +4,7 @@ import json
 from utils.Crawling import *
 from utils.Gpt import *
 from utils.Translate import *
-from db_access import DatabaseAccess
+from utils.db_access import DatabaseAccess
 
 from flask_cors import CORS
 from flask import Flask, jsonify, request, session, make_response
