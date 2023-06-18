@@ -32,10 +32,10 @@ AIpaper
 │   ├── server.py
 │   ├── tokens.py
 │   └── utils
-|       ├── Crawling.py
-|       ├── Gpt.py
-|       ├── Translate.py
-|       └── db_access.py
+│       ├── Crawling.py
+│       ├── Gpt.py
+│       ├── Translate.py
+│       └── db_access.py
 └── react-app
     ├── README.md
     ├── node_modules
