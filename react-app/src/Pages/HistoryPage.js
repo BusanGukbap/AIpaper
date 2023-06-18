@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Button, Row, Col, Table, ButtonGroup, Card, Placeholder, Alert, Spinner, Pagination } from 'react-bootstrap';
+import { Button, Row, Col, Table, ButtonGroup, Card, Placeholder, Alert, Spinner, Pagination, Nav } from 'react-bootstrap';
 
 function HistoryPage({}) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isSpinner, setIsSpinner] = useState(false);
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,14 +12,33 @@ function HistoryPage({}) {
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
   const currentArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
-  const goToHome = () => {
-    navigate("/");
+  const goToHistory = async(event) => {
+    const response = await fetch(`http://localhost:5010/api/history`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    
+    const result = await response.json();
+    console.log(result);
+    if (result.success){
+      navigate("/history", {state : {a : result}})
+    }
+    else{
+      alert(result.message);
+    }
+    
+  }
+  const goToLogin = () => {
+    navigate("/login");
   }
   
   useEffect(() => {
     const data = location.state.a;
     setArticles(data.history.articles);
-  }, []);
+  }, []);  
 
   const handlePageClick = (event) => {
     setCurrentPage(Number(event.target.text));
@@ -44,8 +62,19 @@ function HistoryPage({}) {
   return(
     <div>
       <Row>
-        <Col xs={12} md={{ span: 10, offset: 1}} lg={{ span: 8, offset: 2}}>
-          <Button type = "submit" onClick={goToHome} variant="light">Home</Button>
+      <Col xs={12} md={{ span: 10, offset: 1}} lg={{ span: 8, offset: 2}} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <h1 style={{ fontSize: 63, textAlign: 'center', marginBottom: '20px', marginTop: '20px' } }>
+              <Link style ={{color : 'black', textDecoration : 'none'}} to = "/">AIpaper</Link>
+          </h1>
+            <Nav defaultActiveKey="/" className="justify-content-center">
+              { document.cookie.length ? (
+                <Nav.Link >LogOut</Nav.Link>
+              ) : (
+                <Nav.Link onClick={goToLogin}>Login</Nav.Link>
+              )}
+              <Nav.Link eventKey="link-2" disabled>UserInfo</Nav.Link>
+              <Nav.Link onClick={goToHistory } disabled>History</Nav.Link>
+            </Nav>
           {isLoading ? (
             <div>
               <Card border="dark">
