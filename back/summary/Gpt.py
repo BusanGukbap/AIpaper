@@ -25,9 +25,9 @@ class Gpt:
         tokenover = len(self.message)
         for i in range(tokenover):
             if (i==0):
-                prompt = [{'role': 'user', 'content': f'Summarize the following article in 3 sentences : {self.message[i]}'}]
+                prompt = [{'role': 'user', 'content': f'Summarize the following article in 10 sentences : {self.message[i]}'}]
             elif (i>0):
-                prompt = [{'role': 'user', 'content': f'Summarize the following article in 3 sentences : {text} {self.message[i]}'}]
+                prompt = [{'role': 'user', 'content': f'Summarize the following article in 10 sentences : {text} {self.message[i]}'}]
             self.summary = openai.ChatCompletion.create(
                 model = self.model_engine,
                 messages = prompt,
