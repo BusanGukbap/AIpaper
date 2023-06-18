@@ -23,19 +23,62 @@
 <img src="https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=Google&logoColor=white">
 <br>
 
-## 4. 실행 방법
-### 4-1. 로컬 실행
+## 4. 리포지토리 구조
+```bash
+AIpaper
+├── README.md
+├── back
+│   ├── credentials.json
+│   ├── server.py
+│   ├── tokens.py
+│   └── utils
+|       ├── Crawling.py
+|       ├── Gpt.py
+|       ├── Translate.py
+|       └── db_access.py
+└── react-app
+    ├── README.md
+    ├── node_modules
+    ├── package-lock.json
+    ├── package.json
+    ├── public
+    ├── response.json
+    └── src
+        ├── App.css
+        ├── App.js
+        ├── App.test.js
+        ├── Pages
+        │   ├── HistoryPage.js
+        │   ├── Home.js
+        │   ├── Join.js
+        │   ├── Login.js
+        │   ├── Summary.js
+        │   └── Title.js
+        ├── components
+        │   ├── Button.js
+        │   ├── InputBox.js
+        │   └── OutputBox.js
+        ├── index.css
+        ├── index.js
+        ├── logo.svg
+        ├── reportWebVitals.js
+        └── setupTests.js
+```
+
+## 5. 실행 방법
+### 5-1. 로컬 실행
 1. 백엔드 서버 실행
   * `~/back/`에서 `pip install -r requirements.txt`로 필수 패키지 설치
   * `~/back/`폴더에 `tokens.py`를 추가하여 `gpt-key`, `news-key`, `firebase_key`, `app_key` 세팅
-  * `~/back/server/`에서 `python server.py`로 실행
+  * `~/back/`폴더에 Google Translation API key를 `credential.json`으로 저장
+  * `~/back/`에서 `python server.py`로 실행
 
 2. 프론트엔드 리액트 앱 실행
   * `~/react-app/`에서 `npm install`로 필수 패키지 설치
   * `npm start`로 실행
 
 
-## 5. 팀원
+## 6. 팀원
 |이름|역할|
 |---|------------------------|
 |김동윤|__Front__<br>메인 웹페이지 개발|
