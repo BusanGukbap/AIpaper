@@ -19,6 +19,20 @@ function SummaryPage({}) {
   const goToHome = () => { 
     navigate("/");
   }
+  const goToLogout = async(event) => {
+    const response = await fetch(`http://localhost:5010/api/sign_out`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const result = await response.json();
+    if (result.success){
+      alert(result.message);
+      navigate("/");
+    }
+    else{
+      alert(result.message);
+    }
+  }
   const goToHistory = async(event) => {
     const response = await fetch(`http://localhost:5010/api/history`, {
       method: 'POST',
@@ -144,7 +158,7 @@ function SummaryPage({}) {
       </form>
             <Nav defaultActiveKey="/" className="justify-content-center">
               { document.cookie.length ? (
-                <Nav.Link >LogOut</Nav.Link>
+                <Nav.Link onClick={goToLogout}>Logout</Nav.Link>
               ) : (
                 <Nav.Link onClick={goToLogin}>Login</Nav.Link>
               )}
