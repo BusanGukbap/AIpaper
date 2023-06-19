@@ -19,8 +19,8 @@
 <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/Flask-FFFFFF?style=flat-square&logo=flask&logoColor=black"> <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=white"> <img src="https://img.shields.io/badge/GPT3.5-412991?style=flat-square&logo=OpenAI&logoColor=white"> <img src="https://img.shields.io/badge/Google Translate-4285F4?style=flat-square&logo=Google&logoColor=white">
 <br>
 
-> 개발환경
-<img src="https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=Google&logoColor=white">
+> 개발 및 배포환경
+<img src="https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=Google&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=flat-square&logo=NGINX&logoColor=white">
 <br>
 
 ## 4. 리포지토리 구조
@@ -66,7 +66,13 @@ AIpaper
 ```
 
 ## 5. 실행 방법
-### 5-1. 로컬 실행
+### 5-1. 웹페이지
+<a href="https://aipaper.site/"><img src="https://github.com/BusanGukbap/AIpaper/assets/53174730/1c103cae-a13e-4d1a-98ad-8f917c369477" width="200" height="200"></a>
+<br>
+[AIpaper](https://aipaper.site)
+
+
+### 5-2. 로컬 실행
 1. 백엔드 서버 실행
   * `~/back/`에서 `pip install -r requirements.txt`로 필수 패키지 설치
   * `~/back/`폴더에 `tokens.py`를 추가하여 `gpt-key`, `news-key`, `firebase_key`, `app_key` 세팅
