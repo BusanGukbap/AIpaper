@@ -16,7 +16,7 @@ function Home() {
     navigate("/login");
   }
   const goToLogout = async(event) => {
-    const response = await fetch(`http://localhost:5010/api/sign_out`, {
+    const response = await fetch(`http://34.64.206.236:5010/api/sign_out`, {
       method: 'GET',
       credentials: 'include',
     });
@@ -30,7 +30,7 @@ function Home() {
     }
   }
   const goToHistory = async(event) => {
-    const response = await fetch(`http://localhost:5010/api/history`, {
+    const response = await fetch(`http://34.64.206.236:5010/api/history`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ function Home() {
     event.preventDefault();
     console.log(inputValue);
     setIsSpinner(true);
-    const response = await fetch(`http://localhost:5010/api/article?keyword=${inputValue}`);
+    const response = await fetch(`http://34.64.206.236:5010/api/article?keyword=${inputValue}`);
     const data = await response.json();
 
     setIsSpinner(false);

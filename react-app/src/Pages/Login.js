@@ -29,7 +29,7 @@ function LoginPage({ /* onSignUp, onSignIn */ }) {
 
   // 로그인
   const handleSignIn = async (id, pw) => {
-      const response = await fetch('http://localhost:5010/api/sign_in', {
+      const response = await fetch('http://34.64.206.236:5010/api/sign_in', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ function LoginPage({ /* onSignUp, onSignIn */ }) {
 
       if (result.success) {
         // 로그인 성공
-        document.cookie = `session_id=${result.uid}`;
+        document.cookie = `session_id=${result.uid}; SameSite=None; Secure`;
         navigate("/");
       }
       else {
