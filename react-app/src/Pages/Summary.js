@@ -14,6 +14,7 @@ function SummaryPage({}) {
   const [normal, setNormal] = useState('');
   const [hard, setHard] = useState('');
   const [text, setText] = useState('');
+  const [paperLink, setPaperLink] = useState('');
   
 
   const goToHome = () => { 
@@ -63,6 +64,7 @@ function SummaryPage({}) {
     setEasy(data.difficulty.easy);
     setNormal(data.difficulty.normal);
     setHard(data.difficulty.hard);
+    setPaperLink(location.state.b);
   }, []);
 
   const [tooltipStyle, setTooltipStyle] = useState({});
@@ -151,7 +153,7 @@ function SummaryPage({}) {
       <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
         <input type="text" style={{ width: '400px', height: '50px', fontSize: '20px',marginRight: '15px',marginBottom: '5px' }} onChange={handleInputChange} value={inputValue} />
         {isSpinner ? (
-          <Spinner variant="primary" animation="border" style={{ width: '35vh', height: '35vh' }} />
+          <Spinner variant="primary" animation="border" style={{ width: '35px', height: '35px' }} />
         ) : (
           <Button type="submit" style={{ width: '15vh', height: '5vh', fontSize: '20px', marginBottom: '5px' }}>Search</Button>
         )}
@@ -183,7 +185,8 @@ function SummaryPage({}) {
                   <Toast.Body className="m-auto">{translatedText}</Toast.Body>
                 </Toast>
               )}
-              <ButtonGroup className="d-flex">
+              <Button onClick = {() => window.open(paperLink, "_blank")} className="w-100" >{paperLink}</Button>
+              <ButtonGroup className="d-flex" style={{marginTop: '10px'}}>
                 <Button variant="secondary" onClick={() => handledifficulty("Summary")}>Summary</Button>
                 <Button variant="info" onClick={() => handledifficulty("easy")}>Easy</Button>
                 <Button variant="dark" onClick={() => handledifficulty("normal")}>Normal</Button>
