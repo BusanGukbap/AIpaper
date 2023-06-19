@@ -51,12 +51,12 @@ function HistoryPage({}) {
       method: 'GET',
     });
 
-    console.log(1);
+    console.log(article);
+    
     const result = await response.json();
-
     setIsLoading(false);
+    navigate("/summary", {state : {a : result, b : article.url}})
     console.log(result);
-    navigate("/summary", {state : {a : result}});
   };
 
   return(

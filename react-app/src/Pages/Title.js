@@ -91,10 +91,12 @@ function TitlePage({}) {
       body: JSON.stringify(article),
       credentials: 'include',
     });
+
+    console.log(article);
     
     const result = await response.json();
     setIsLoading(false);
-    navigate("/summary", {state : {a : result}})
+    navigate("/summary", {state : {a : result, b : article.url}})
     console.log(result);
   };
 
@@ -108,7 +110,7 @@ function TitlePage({}) {
       <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
         <input type="text" style={{ width: '400px', height: '50px', fontSize: '20px',marginRight: '15px',marginBottom: '5px' }} onChange={handleInputChange} value={inputValue} />
         {isSpinner ? (
-          <Spinner variant="primary" animation="border" style={{ width: '35vh', height: '35vh' }} />
+          <Spinner variant="primary" animation="border" style={{ width: '35px', height: '35px' }} />
         ) : (
           <Button type="submit" style={{ width: '15vh', height: '5vh', fontSize: '20px', marginBottom: '5px' }}>Search</Button>
         )}
