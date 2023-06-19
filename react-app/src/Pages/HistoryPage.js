@@ -40,7 +40,15 @@ function HistoryPage({}) {
       method: 'GET',
       credentials: 'include',
     });
-
+    const result = await response.json();
+    if (result.success){
+      alert(result.message);
+      navigate("/");
+    }
+    else{
+      alert(result.message);
+    }
+  }
   useEffect(() => {
     const data = location.state.a;
     setArticles(data.history.articles);
