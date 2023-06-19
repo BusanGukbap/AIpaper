@@ -148,7 +148,6 @@ def history():
         else:
             return jsonify({'success': False, 'message': '로그인이 필요합니다.'})
 
-if __name__ == '__main__':
-    ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    ssl_context.load_cert_chain('/etc/letsencrypt/live/aipaper.site/fullchain.pem', '/etc/letsencrypt/live/aipaper.site/privkey.pem')
-    app.run(host="0.0.0.0", port="5010", ssl_context=ssl_context)
+ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+ssl_context.load_cert_chain('/etc/letsencrypt/live/aipaper.site/fullchain.pem', '/etc/letsencrypt/live/aipaper.site/privkey.pem')
+app.run(host="0.0.0.0", port="5010", ssl_context=ssl_context)
