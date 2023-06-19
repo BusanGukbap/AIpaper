@@ -41,7 +41,7 @@ function LoginPage({ /* onSignUp, onSignIn */ }) {
 
       if (result.success) {
         // 로그인 성공
-        document.cookie = `session_id=${result.uid}; SameSite=None; Secure`;
+        document.cookie = `session_id=${result.uid};`;
         navigate("/");
       }
       else {
