@@ -8,10 +8,13 @@ from utils.db_access import DatabaseAccess
 
 from flask_cors import CORS
 from flask import Flask, jsonify, request, session, make_response
+from flask_sslify import SSLify
+import ssl
 
 app = Flask(__name__)
 app.secret_key = tokens.app_key
 CORS(app, supports_credentials=True)
+sslify = SSLify(app)
 
 crawling = Crawling()
 gpt = Gpt()
@@ -145,4 +148,7 @@ def history():
         else:
             return jsonify({'success': False, 'message': '로그인이 필요합니다.'})
 
-app.run(host="0.0.0.0", port=5010, debug=True)
+if __name__ == '__main__':
+    ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    ssl_context.load_cert_chain('/etc/letsencrypt/live/aipaper.site/fullchain.pem', '/etc/letsencrypt/live/aipaper.site/privkey.pem')
+    app.run(ssl_context=ssl_context)
