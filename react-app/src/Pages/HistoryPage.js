@@ -35,6 +35,12 @@ function HistoryPage({}) {
     navigate("/login");
   }
   
+  const goToLogout = async(event) => {
+    const response = await fetch(`http://34.64.206.236:5010/api/sign_out`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
   useEffect(() => {
     const data = location.state.a;
     setArticles(data.history.articles);
@@ -68,7 +74,7 @@ function HistoryPage({}) {
           </h1>
             <Nav defaultActiveKey="/" className="justify-content-center">
               { document.cookie.length ? (
-                <Nav.Link >LogOut</Nav.Link>
+                <Nav.Link onClick={goToLogout}>Logout</Nav.Link>
               ) : (
                 <Nav.Link onClick={goToLogin}>Login</Nav.Link>
               )}
