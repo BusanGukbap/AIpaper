@@ -21,7 +21,7 @@ function JoinPage({}) {
 
     // 회원가입
     const handleSignUp = async (id, pw) => {
-        const response = await fetch('https://34.64.206.236:5010/api/sign_up', {
+        const response = await fetch('https://aipaper.site:5010/api/sign_up', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
