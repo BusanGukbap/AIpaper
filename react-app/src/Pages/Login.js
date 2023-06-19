@@ -29,7 +29,7 @@ function LoginPage({ /* onSignUp, onSignIn */ }) {
 
   // 로그인
   const handleSignIn = async (id, pw) => {
-      const response = await fetch('http://34.64.206.236:5010/api/sign_in', {
+      const response = await fetch('https://34.64.206.236:5010/api/sign_in', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

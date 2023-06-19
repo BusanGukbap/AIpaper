@@ -13,7 +13,7 @@ function HistoryPage({}) {
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
   const currentArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
   const goToHistory = async(event) => {
-    const response = await fetch(`http://34.64.206.236:5010/api/history`, {
+    const response = await fetch(`https://34.64.206.236:5010/api/history`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ function HistoryPage({}) {
   }
   
   const goToLogout = async(event) => {
-    const response = await fetch(`http://34.64.206.236:5010/api/sign_out`, {
+    const response = await fetch(`https://34.64.206.236:5010/api/sign_out`, {
       method: 'GET',
       credentials: 'include',
     });
@@ -61,7 +61,7 @@ function HistoryPage({}) {
   const handleHeadlineClick = async (article) => {
     setIsLoading(true);
     
-    const response = await fetch(`http://34.64.206.236:5010/api/summary?url=${article.url}`, {
+    const response = await fetch(`https://34.64.206.236:5010/api/summary?url=${article.url}`, {
       method: 'GET',
     });
 
