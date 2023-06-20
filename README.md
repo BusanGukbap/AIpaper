@@ -68,10 +68,10 @@ AIpaper
 
 ## 5. 실행 방법
 ### 5-1. 웹페이지
-[**AIpaper**](https://aipaper.site)
+[**AIpaper**](https://aipaper.site/)
 <br>
 
-<img src="https://github.com/BusanGukbap/AIpaper/assets/53174730/1c103cae-a13e-4d1a-98ad-8f917c369477" width="200" height="200">
+<a href="https://aipaper.site/"><img src="./aipaper_qr.png" width="200" height="200"></a>
 
 <br>
 
