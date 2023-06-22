@@ -28,6 +28,7 @@
 ## 2. 주요 기능
 
 > 로그인 기능
+> 
 ![signin](./images/signin.png)
 로그인 페이지 화면
 
