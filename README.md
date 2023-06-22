@@ -12,33 +12,35 @@
 ## 2. 주요 기능
 
 ![main1](./images/mainpage1.png)
-
+home 화면
 
 ![signin](./images/signin.png)
-
+로그인 페이지 화면
 
 ![signup](./images/signup.png)
-
+회원가입 페이지 화면
 
 ![main2](./images/mainpage2.png)
-
+로그인 후 home 화면, login -> logout으로 변경됨
 
 ![search](./images/searchpage.png)
-
+키워드 검색 후 키워드에 해당하는 기사들 목록을 보여주는 페이지
 
 ![summary](./images/summarypage.png)
-
+기사 클릭 후 기사 요약을 보여주는 페이지
 
 ![easy](./images/easypage.png)
-
+기사 요약 중 easy를 골랐을 때
 
 ![normal](./images/normalpage.png)
-
+기사 요약 중 normal을 골랐을 때
 
 ![hard](./images/hardpage.png)
-
+기사 요약 중 hard를 골랐을 때
 
 ![history](./images/historypage.png)
+History 버튼을 누르면 나오는 페이지
+유저가 로그인 후 보았던 기사들의 기록을 담아놓음
 
 
 
