@@ -6,7 +6,41 @@
 
 ## 1. 서비스 개요
 
+![systemArch](./images/aipaper_system_architecture.png)
+
+
 ## 2. 주요 기능
+
+![main1](./images/mainpage1.png)
+
+
+![signin](./images/signin.png)
+
+
+![signup](./images/signup.png)
+
+
+![main2](./images/mainpage2.png)
+
+
+![search](./images/searchpage.png)
+
+
+![summary](./images/summarypage.png)
+
+
+![easy](./images/easypage.png)
+
+
+![normal](./images/normalpage.png)
+
+
+![hard](./images/hardpage.png)
+
+
+![history](./images/historypage.png)
+
+
 
 ## 3. 사용 기술
 > Front-end
@@ -71,7 +105,7 @@ AIpaper
 [**AIpaper**](https://aipaper.site/)
 <br>
 
-<a href="https://aipaper.site/"><img src="./aipaper_qr.png" width="200" height="200"></a>
+<a href="https://aipaper.site/"><img src="./images/aipaper_qr.png" width="200" height="200"></a>
 
 <br>
 
